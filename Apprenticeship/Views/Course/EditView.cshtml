@@ -1,0 +1,30 @@
+﻿@model Apprenticeship.Models.CoursesSkills
+@{
+    ViewData["Title"] = "Edit Course";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+@using (@Html.BeginForm("Edit", "Course", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+<div class="form-group">
+    @Html.HiddenFor(x => x.CourseId)
+    @Html.TextBoxFor(x => x.Course.CourseName, new { placeholder = "Enter Course", @class = "form-control" })
+    <select class="selectpicker" multiple data-live-search="true" name="skillId">
+        @foreach (var skill in ViewBag.Skills)
+        {
+            if (@skill.Selected == true)
+            {
+                <option selected="selected" value="@skill.Value">@skill.Text</option>
+            }
+            else
+            {
+                <option value="@skill.Value">@skill.Text</option>
+            }
+
+        }
+    </select>
+</div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+}

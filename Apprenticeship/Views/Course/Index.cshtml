@@ -1,0 +1,32 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "Courses";
+}
+<h1>@ViewData["Title"]</h1>
+<div class="text-right">
+    @Html.ActionLink("Create Course", "CreateView", "Course", null, new { @class = "btn btn-primary" })
+</div>
+<div class="bd-example table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-left" scope="col">Course name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model.courses)
+            {
+                <tr>
+                    <td class="text-left" scope="col">@s.Course.CourseName</td>
+                    <td class="text-right" scope="col">
+                        @Html.ActionLink("Edit", "EditView", "Course", new { courseId = s.CourseId, skillId = s.SkillId }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Delete", "Delete", "Course", new { courseId = s.CourseId }, new { @class = "btn btn-danger", @onclick = "return confirm('Are you sure?');" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+

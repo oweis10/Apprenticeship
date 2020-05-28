@@ -1,0 +1,118 @@
+﻿@model Apprenticeship.Models.Intermediate.IntermediateMentor
+@{
+    ViewData["Title"] = "Create Work Mentor";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+@using (@Html.BeginForm("CreateWorkMentor", "user", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.FirstName, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.FirstName, new { placeholder = "Enter first name", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.FirstName, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.SecondName, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.SecondName, new { placeholder = "Enter second name", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.SecondName, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.LastName, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.LastName, new { placeholder = "Enter last name", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.LastName, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.Email, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.Email, new { placeholder = "Enter Email", @class = "form-control", autocomplete ="off" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.Email, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.Password, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.PasswordFor(x => x.Password, new { placeholder = "Enter Password", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.Password, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.ConfirmPassword, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.PasswordFor(x => x.ConfirmPassword, new { placeholder = "Confirm Password", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.ConfirmPassword, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.PhoneNumber, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.PhoneNumber, new { placeholder = "Enter Phone Number", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.PhoneNumber, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.Address, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.Address, new { placeholder = "Enter Address", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.Address, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.CompanyName, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.CompanyName, new { placeholder = "Enter Company Name", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.CompanyName, null, new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+}
+<script>
+    $(document).ready(function () {
+        $('.selectpicker').selectpicker();
+    })
+</script>

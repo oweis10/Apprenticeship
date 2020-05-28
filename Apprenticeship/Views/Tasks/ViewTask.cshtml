@@ -1,0 +1,149 @@
+﻿@model Apprenticeship.Models.Intermediate.IntermediateTask
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="form-group">
+    @Html.HiddenFor(x => x.Id)
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <h3 class="text-secondary">Task's Details</h3>
+            <div class="row">
+                <div class="col-md-4">
+                    @Html.LabelFor(x => x.Title, new { @class = "form-control font-weight-bolder" })
+                </div>
+                <div class="col-md-8">
+                    @Html.TextBoxFor(x => x.Title, new { placeholder = "Enter Title", @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    @Html.LabelFor(x => x.Description, new { @class = "form-control font-weight-bolder" })
+                </div>
+                <div class="col-md-8">
+                    @Html.TextAreaFor(x => x.Description, new { placeholder = "Enter Title", @class = "form-control", @style = "min-height: 14em;", @readonly = "readonly" })
+                    <hr />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    @Html.LabelFor(x => x.Files, new { @class = "form-control font-weight-bolder" })
+                </div>
+                <div class="col-md-8">
+                    <ul class="form-control" style="list-style-type:none">
+                        @foreach (var file in Model.Files)
+                        {
+                            <li><a target="_blank" href=@Url.Action("GetFile", "Tasks", new {fileId = @file.Id}) id="@file.Id">@file.Name</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="row" id="rejection" style="display: none;">
+                <div class="col-md-2">
+                    @Html.LabelFor(x => x.Note, new { @class = "form-control font-weight-bolder" })
+                </div>
+                <div class="col-md-6">
+                    @Html.TextArea("note", new { placeholder = "Enter Note", @class = "form-control" })
+                </div>
+                <div class="col-md-2">
+                    @Html.ActionLink("Reject", "RejectTask", "Tasks", new { taskId = Model.Id }, new { @class = "btn btn-danger", @onclick = "return Rejection()" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 text-center">
+            <h3 class="text-secondary">Task's Objective</h3>
+            <iframe src="@Model.NosUrl" style="width: 20em; height: 20em;"></iframe>
+        </div>
+    </div>
+    @if (Model.Status == ReportApprovalStatus.PendingApproval.ToString() && User.IsInRole("WorkMentor"))
+    {
+        <div class="row" id="actions">
+            <div class="col-md-8">
+                <div class="btn-group">
+                    @Html.ActionLink("Approve", "ApproveTask", "Tasks", new { taskId = Model.Id }, new { @class = "btn btn-primary", @onclick = "return confirm('Are you sure?');" })
+                    <a href="#" onclick="Reject()" class="btn btn-danger">Not okay !?</a>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (Model.Status == ReportApprovalStatus.Approved.ToString())
+    {
+        <div class="row">
+            <div class="col-md-10">
+                @if (Model.Comments.Any())
+                {
+                    <hr />
+                    <h4>Comments</h4>
+                    <ul class="timeline">
+                        @foreach (var comment in Model.Comments)
+                        {
+                            <li>
+                                <p class="pBlue">@comment.CommenterName</p>
+                                <a href="#" class="float-right">21 March, 2014</a>
+                                <p>@comment.Comment</p>
+                            </li>
+                        }
+                    </ul>
+                    <hr />
+                }
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <textarea class="form-control" name="addComment" id="addComment" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button class="btn btn-primary btn-circle text-uppercase" onclick="AddComment()">Comment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+<script>
+    function Reject() {
+        $("#rejection").show();
+        $("#actions").hide();
+    }
+    function Rejection() {
+        var rejectionNote = $("#note")[0].value;
+        var id = $("#Id").val();
+        $.ajax({
+            url: '@Url.Action("Reject", "Tasks")',
+            dataType: "json",
+            type: "GET",
+            cache: false,
+            data: { taskId: id, note: rejectionNote },
+            success: function (data) {
+                window.location.href = "/User/StudentIndex";
+                //location.reload();
+            }
+        }).fail(
+            function () {
+                alert("Fail");
+            });
+    }
+    function AddComment() {
+
+        var id = $("#Id").val();
+        var cmnt = $("#addComment").val();
+        $.ajax({
+            url: '@Url.Action("Comment", "Tasks")',
+            dataType: "json",
+            type: "GET",
+            cache: false,
+            data: { comment: cmnt, taskId: id }
+            ,
+            success: function (data) {
+                //window.location.href = "/Tasks/ViewTask" + "?taskId="+ data;
+                location.reload();
+            }
+        }).fail(
+            function () {
+                alert("Fail");
+            });
+        
+    };
+</script>

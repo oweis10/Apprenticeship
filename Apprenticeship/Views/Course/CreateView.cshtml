@@ -1,0 +1,27 @@
+﻿@model Apprenticeship.Models.CoursesSkills
+@{
+    ViewData["Title"] = "Create Course";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+@using (@Html.BeginForm("Create", "Course", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.TextBoxFor(x => x.Course.CourseName, new { placeholder = "Enter Course", @class = "form-control" })
+        <select class="selectpicker form-control" multiple data-live-search="true" name="skillId">
+            <option disabled selected>Select Skills</option>
+            @foreach (var skill in ViewBag.Skills)
+            {
+                <option value="@skill.Value">@skill.Text</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+}
+ <script>
+    $(document).ready(function () {
+        $('.selectpicker').selectpicker();
+    })
+</script>

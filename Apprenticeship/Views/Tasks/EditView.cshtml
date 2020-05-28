@@ -1,0 +1,67 @@
+﻿@model Apprenticeship.Models.Intermediate.IntermediateTask
+@{
+    ViewData["Title"] = "Edit Task";
+}
+@if (Model.Status == ReportApprovalStatus.Rejected.ToString())
+{
+    <h1 class="text-danger">Task Rejected!</h1>
+}
+else
+{
+    <h1>@ViewData["Title"]</h1>
+}
+
+@using (@Html.BeginForm("Edit", "Tasks", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+    <div class="form-group">
+        @if (Model.Status == ReportApprovalStatus.Rejected.ToString())
+        {
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.Label("noteLable","REJECTION NOTE", new { @class = "font-weight-bolder text-danger" })
+                </div>
+                <div class="col-md-8">
+                    @Html.TextAreaFor(x => x.Note, new { placeholder = "Enter Title", @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+            <hr />
+        }
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(x => x.Title, new { @class = "font-weight-bolder" })
+            </div>
+            <div class="col-md-8">
+                @Html.TextBoxFor(x => x.Title, new { placeholder = "Enter Title", @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(x => x.Description, new { @class = "font-weight-bolder" })
+            </div>
+            <div class="col-md-8">
+                @Html.TextAreaFor(x => x.Description, new { placeholder = "Enter Description", @class = "form-control" })
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(x => x.Files, new { @class = "font-weight-bolder" })
+            </div>
+            <div class="col-md-8">
+                <div class="custom-file">
+                    <input type="file" name="files" multiple class="custom-file-input" id="customFileLang" lang="en-us">
+                    <label class="custom-file-label" for="customFileLang">
+                        @foreach (var file in Model.Files)
+                        {
+                            @file.Name
+                        }
+                    </label>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+}

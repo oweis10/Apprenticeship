@@ -1,0 +1,233 @@
+﻿@model dynamic
+@{
+    @if (Model.tasks.Count != 0)
+    {
+        ViewData["Title"] = @Model.tasks[0].Student.FirstName + "'s Timeline";
+    }
+    else
+    {
+        ViewData["Title"] = "No Tasks";
+    }
+    var left = false;
+        int counter = 1;
+    }
+    <h1>@ViewData["Title"]</h1>
+
+    <div class="container py-2">
+        @if (Model.tasks.Count != 0)
+        {
+            @foreach (var s in Model.tasks)
+            {
+                <div class="row no-gutters">
+                    @if (left != true)
+                    {
+                        <div class="col-sm py-2">
+                            @if (s.Status == ReportApprovalStatus.Approved)
+                            {
+                                <div class="card border-success shadow">
+                                    <div class="card-body">
+                                        <div class="float-right text-success small">@DateTime.Now</div>
+                                        <h4 class="card-title text-success">@s.Title</h4>
+                                        <h6 class="card-title text-success">@s.Status</h6>
+                                        <p class="card-text">@s.Description</p>
+                                        <button class="btn btn-sm btn-outline-secondary" type="button" data-target="#t22_details_@(counter)" data-toggle="collapse">Show Details ▼</button>
+                                        <div class="collapse border" id="t22_details_@(counter)">
+                                            <div class="p-2 text-monospace">
+                                                @foreach (var file in s.TaskFiles)
+                                                {
+                                                    <div><a target="_blank" href=@Url.Action("GetFile", "Tasks", new {fileId = @file.Id}) id="@file.Id">@file.Name</a></div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                { counter = counter + 1; }
+                            }
+                            else if (s.Status == ReportApprovalStatus.PendingApproval)
+                            {
+                                <div class="card border-info shadow">
+                                    <div class="card-body">
+                                        <div class="float-right text-info small">@DateTime.Now</div>
+                                        <h4 class="card-title text-info">@s.Title</h4>
+                                        <h6 class="card-title text-info">Pending Approval</h6>
+                                        <p class="card-text">@s.Description</p>
+                                        <button class="btn btn-sm btn-outline-secondary" type="button" data-target="#t22_details_@(counter)" data-toggle="collapse">Show Details ▼</button>
+                                        <div class="collapse border" id="t22_details_@(counter)">
+                                            <div class="p-2 text-monospace">
+                                                @foreach (var file in s.TaskFiles)
+                                                {
+                                                    <div><a target="_blank" href=@Url.Action("GetFile", "Tasks", new {fileId = @file.Id}) id="@file.Id">@file.Name</a></div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                { counter = counter + 1; }
+                            }
+                            else
+                            {
+                                <div class="card border-danger shadow">
+                                    <div class="card-body">
+                                        <div class="float-right text-danger small">@DateTime.Now</div>
+                                        <h4 class="card-title text-danger">@s.Title</h4>
+                                        <h6 class="card-title text-danger">@s.Status</h6>
+                                        <p class="card-text">@s.Description</p>
+                                        <button class="btn btn-sm btn-outline-secondary" type="button" data-target="#t22_details_@(counter)" data-toggle="collapse">Show Details ▼</button>
+                                        <div class="collapse border" id="t22_details_@(counter)">
+                                            <div class="p-2 text-monospace">
+                                                @foreach (var file in s.TaskFiles)
+                                                {
+                                                    <div><a target="_blank" href=@Url.Action("GetFile", "Tasks", new {fileId = @file.Id}) id="@file.Id">@file.Name</a></div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                { counter = counter + 1; }
+                            }
+                        </div>
+                        <div class="col-sm-1 text-center flex-column d-none d-sm-flex">
+                            <div class="row h-50">
+                                <div class="col border-right">&nbsp;</div>
+                                <div class="col">&nbsp;</div>
+                            </div>
+                            @if (s.Status == ReportApprovalStatus.Approved)
+                            {
+                                <h5 class="m-2">
+                                    <span class="badge badge-pill bg-success">&nbsp;</span>
+                                </h5>
+                            }
+                            else if (s.Status == ReportApprovalStatus.PendingApproval)
+                            {
+                                <h5 class="m-2">
+                                    <span class="badge badge-pill bg-info">&nbsp;</span>
+                                </h5>
+                            }
+                            else
+                            {
+                                <h5 class="m-2">
+                                    <span class="badge badge-pill bg-danger">&nbsp;</span>
+                                </h5>
+                            }
+                            <div class="row h-50">
+                                <div class="col border-right">&nbsp;</div>
+                                <div class="col">&nbsp;</div>
+                            </div>
+                        </div>
+                        <div class="col-sm"> <!--spacer--> </div>
+                        { left = true; }
+                    }
+                    else
+                    {
+                        <div class="col-sm"> <!--spacer--> </div>
+                        <div class="col-sm-1 text-center flex-column d-none d-sm-flex">
+                            <div class="row h-50">
+                                <div class="col border-right">&nbsp;</div>
+                                <div class="col">&nbsp;</div>
+                            </div>
+                            @if (s.Status == ReportApprovalStatus.Approved)
+                            {
+                                <h5 class="m-2">
+                                    <span class="badge badge-pill bg-success">&nbsp;</span>
+                                </h5>
+                            }
+                            else if (s.Status == ReportApprovalStatus.PendingApproval)
+                            {
+                                <h5 class="m-2">
+                                    <span class="badge badge-pill bg-info">&nbsp;</span>
+                                </h5>
+                            }
+                            else
+                            {
+                                <h5 class="m-2">
+                                    <span class="badge badge-pill bg-danger">&nbsp;</span>
+                                </h5>
+                            }
+
+                            <div class="row h-50">
+                                <div class="col border-right">&nbsp;</div>
+                                <div class="col">&nbsp;</div>
+                            </div>
+                        </div>
+                        <div class="col-sm py-2">
+                            @if (s.Status == ReportApprovalStatus.Approved)
+                            {
+                                <div class="card border-success shadow">
+                                    <div class="card-body">
+                                        <div class="float-right text-success small">@DateTime.Now</div>
+                                        <h4 class="card-title text-success">@s.Title</h4>
+                                        <h5 class="card-title text-success">@s.Status</h5>
+                                        <p class="card-text">@s.Description</p>
+                                        <button class="btn btn-sm btn-outline-secondary" type="button" data-target="#t22_details_@(counter)" data-toggle="collapse">Show Details ▼</button>
+                                        <div class="collapse border" id="t22_details_@(counter)">
+                                            <div class="p-2 text-monospace">
+                                                @foreach (var file in s.TaskFiles)
+                                                {
+                                                    <div><a target="_blank" href=@Url.Action("GetFile", "Tasks", new {fileId = @file.Id}) id="@file.Id">@file.Name</a></div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                { counter = counter + 1; }
+                            }
+                            else if (s.Status == ReportApprovalStatus.PendingApproval)
+                            {
+                                <div class="card border-info shadow">
+                                    <div class="card-body">
+                                        <div class="float-right text-info small">@DateTime.Now</div>
+                                        <h4 class="card-title text-info">@s.Title</h4>
+                                        <h6 class="card-title text-info">Pending Approval</h6>
+                                        <p class="card-text">@s.Description</p>
+                                        <button class="btn btn-sm btn-outline-secondary" type="button" data-target="#t22_details_@(counter)" data-toggle="collapse">Show Details ▼</button>
+                                        <div class="collapse border" id="t22_details_@(counter)">
+                                            <div class="p-2 text-monospace">
+                                                @foreach (var file in s.TaskFiles)
+                                                {
+                                                    <div><a target="_blank" href=@Url.Action("GetFile", "Tasks", new {fileId = @file.Id}) id="@file.Id">@file.Name</a></div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                { counter = counter + 1; }
+                            }
+                            else
+                            {
+                                <div class="card border-danger shadow">
+                                    <div class="card-body">
+                                        <div class="float-right text-danger small">@DateTime.Now</div>
+                                        <h4 class="card-title text-danger">@s.Title</h4>
+                                        <h6 class="card-title text-danger">@s.Status</h6>
+                                        <p class="card-text">@s.Description</p>
+                                        <button class="btn btn-sm btn-outline-secondary" type="button" data-target="#t22_details_@(counter)" data-toggle="collapse">Show Details ▼</button>
+                                        <div class="collapse border" id="t22_details_@(counter)">
+                                            <div class="p-2 text-monospace">
+                                                @foreach (var file in s.TaskFiles)
+                                                {
+                                                    <div><a target="_blank" href=@Url.Action("GetFile", "Tasks", new {fileId = @file.Id}) id="@file.Id">@file.Name</a></div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                { counter = counter + 1; }
+                            }
+                        </div>
+                        { left = false; }
+                    }
+                </div>
+            }
+        }
+        else
+        {
+            <h2>There is no taks to view !</h2>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+        }
+
+    </div>
+    <!-- Timeline -->

@@ -1,0 +1,15 @@
+﻿@model Apprenticeship.Models.Skill
+@{
+    ViewData["Title"] = "Create Skill";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+@using (@Html.BeginForm("Create", "Skill", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.TextBoxFor(x => x.Name, new { placeholder = "Enter skill", @class = "form-control" })
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+}

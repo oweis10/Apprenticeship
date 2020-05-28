@@ -1,0 +1,33 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "Tasks";
+}
+<h1>@ViewData["Title"]</h1>
+<div class="bd-example table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-left" scope="col">Title</th>
+                <th class="text-left" scope="col">Student name</th>
+                <th class="text-left" scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model.tasks)
+            {
+                @if (s.Status == ReportApprovalStatus.Approved)
+                {
+                    <tr>
+                        <td class="text-left" scope="col">@s.Title</td>
+                        <td class="text-left" scope="col">@s.Student.FirstName @s.Student.LastName</td>
+                        <td class="text-left text-success" scope="col">@s.Status</td>
+                        <td class="text-right" scope="col">
+                            @Html.ActionLink("See student tasks", "StudentTasks", "Tasks", new { studentId = s.Student.Id }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("View", "ViewTask", "Tasks", new { taskId = s.Id }, new { @class = "btn btn-primary" })
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>  

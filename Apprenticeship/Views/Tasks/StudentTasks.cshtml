@@ -1,0 +1,101 @@
+﻿@model dynamic
+@{
+    @if (Model.tasks.Count != 0)
+    {
+        ViewData["Title"] = @Model.tasks[0].Student.FirstName + "'s Tasks";
+    }
+    else
+    {
+        ViewData["Title"] = "No Tasks";
+    }
+}
+<h1>@ViewData["Title"]</h1>
+<div class="bd-example table-responsive">
+    @if (Model.tasks.Count != 0)
+    {
+        @if (User.IsInRole("SchoolMentor"))
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="text-left" scope="col">Title</th>
+                        <th class="text-left" scope="col">Student name</th>
+                        <th class="text-left" scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var s in Model.tasks)
+                    {
+                        @if (s.Status == ReportApprovalStatus.Approved)
+                        {
+                            <tr>
+                                <td class="text-left" scope="col">@s.Title</td>
+                                <td class="text-left" scope="col">@s.Student.FirstName @s.Student.LastName</td>
+                                <td class="text-left text-success" scope="col">@s.Status</td>
+                                <td class="text-right" scope="col">
+                                    @Html.ActionLink("View", "ViewTask", "Tasks", new { taskId = s.Id }, new { @class = "btn btn-primary" })
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="text-left" scope="col">Title</th>
+                        <th class="text-left" scope="col">Student name</th>
+                        <th class="text-left" scope="col">Status</th>
+                    </tr>
+                    @foreach (var s in Model.tasks)
+                    {
+                        @if (s.Status != ReportApprovalStatus.Rejected)
+                        {
+                            <tr>
+                                <td class="text-left" scope="col">@s.Title</td>
+                                <td class="text-left" scope="col">@s.Student.FirstName @s.Student.LastName</td>
+                                @if (s.Status == ReportApprovalStatus.PendingApproval)
+                                {
+                                    <td class="text-left text-danger" scope="col">Pending Approval</td>
+                                }
+                                else
+                                {
+                                    <td class="text-left text-success" scope="col">@s.Status</td>
+                                }
+                                <td class="text-right" scope="col">
+                                    @Html.ActionLink("View", "ViewTask", "Tasks", new { taskId = s.Id }, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink("Approve", "Approve", "Tasks", new { taskId = s.Id }, new { @class = "btn btn-primary", @onclick = "return confirm('Are you sure?');" })
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td class="text-left" scope="col">@s.Title</td>
+                                <td class="text-left" scope="col">@s.Student.FirstName @s.Student.LastName</td>
+                                <td class="text-left text-success" scope="col">@s.Status</td>
+                                <td class="text-right" scope="col">
+                                    @Html.ActionLink("View", "ViewTask", "Tasks", new { taskId = s.Id }, new { @class = "btn btn-primary", @style = "margin-right: 3px !important;" })
+                                </td>
+                            </tr>
+                        }
+                    }
+                </thead>
+            </table>
+        }
+    }
+    else
+    {
+        <h2>There is no taks to view !</h2>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+    }
+
+
+</div>

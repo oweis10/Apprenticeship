@@ -1,0 +1,152 @@
+﻿@model Apprenticeship.Models.Intermediate.IntermediatePlacement
+@{
+    ViewData["Title"] = "Set Placement";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+@using (@Html.BeginForm("Edit", "Placement", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.CompanyName, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.CompanyName, new { placeholder = "Enter Company Name", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.CompanyName, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.Label("Student", "Student", new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            <select class="form-control" name="StudentId">
+                @foreach (var student in ViewBag.students)
+                {
+                    if (student.Selected == true)
+                    {
+                        <option selected="selected" value="@student.Value">@student.Text</option>
+                    }
+                    else
+                    {
+                        <option value="@student.Value">@student.Text</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.StudentId, null, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            @Html.Label("School Mentor", "School Mentor", new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            <select class="form-control" name="SchoolMentorId">
+                @foreach (var schoolMentor in ViewBag.schoolMentors)
+                {
+                    if (schoolMentor.Selected == true)
+                    {
+                        <option selected="selected" value="@schoolMentor.Value">@schoolMentor.Text</option>
+                    }
+                    else
+                    {
+                        <option value="@schoolMentor.Value">@schoolMentor.Text</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.SchoolMentorId, null, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            @Html.Label("Work Mentor", "Work Mentor", new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            <select class="form-control" name="WorkMentorId">
+                @foreach (var workMentor in ViewBag.workMentors)
+                {
+                    if (workMentor.Selected == true)
+                    {
+                        <option selected="selected" value="@workMentor.Value">@workMentor.Text</option>
+                    }
+                    else
+                    {
+                        <option value="@workMentor.Value">@workMentor.Text</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.WorkMentorId, null, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.StartDate, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.StartDate, new { placeholder = "Enter Start Date", @class = "form-control", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "yyyy-mm-dd" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.StartDate, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.StartDate, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.EndDate, new { placeholder = "Enter End Date", @class = "form-control", data_provide = "datepicker", data_date_autoclose = "true", data_date_format = "yyyy-mm-dd" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.EndDate, null, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            @Html.Label("Noses", "Noses", new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            <select class="selectpicker form-control" multiple data-live-search="true" name="Noses">
+                @foreach (var nos in ViewBag.noses)
+                {
+                    if (nos.Selected == true)
+                    {
+                        <option selected="selected" value="@nos.Value">@nos.Text</option>
+                    }
+                    else
+                    {
+                        <option value="@nos.Value">@nos.Text</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.Noses, null, new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+}
+<script>
+    $(document).ready(function () {
+        $('.selectpicker').selectpicker();
+        $('.datepicker').datepicker();
+    })
+
+
+</script>

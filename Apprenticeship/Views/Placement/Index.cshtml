@@ -1,0 +1,37 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "Placements";
+}
+<h1>@ViewData["Title"]</h1>
+<div class="text-right">
+    @Html.ActionLink("Set Placement", "Create", "Placement", null, new { @class = "btn btn-primary" })
+</div>
+<div class="bd-example table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-left" scope="col">Student name</th>
+                <th class="text-left" scope="col">School mentor name</th>
+                <th class="text-left" scope="col">Work mentor name</th>
+                <th class="text-left" scope="col">Company name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model.placements)
+            {
+                <tr>
+                    <td class="text-left" scope="col">@s.Student.FirstName @s.Student.LastName</td>
+                    <td class="text-left" scope="col">@s.SchoolMentor.FirstName @s.SchoolMentor.LastName</td>
+                    <td class="text-left" scope="col">@s.WorkMentor.FirstName @s.WorkMentor.LastName</td>
+                    <td class="text-left" scope="col">@s.CompanyName</td>
+                    <td class="text-right" scope="col">
+                    @Html.ActionLink("Edit", "EditView", "Placement", new { placementId = s.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Delete", "Delete", "Placement", new { placementId = s.Id }, new { @class = "btn btn-danger", @onclick = "return confirm('Are you sure?');" })</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+

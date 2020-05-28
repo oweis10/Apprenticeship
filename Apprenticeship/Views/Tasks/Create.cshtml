@@ -1,0 +1,77 @@
+﻿@model Apprenticeship.Models.Intermediate.IntermediateTask
+@{
+    ViewData["Title"] = "Create Task";
+}
+
+@using (@Html.BeginForm("Create", "Tasks", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <h3 class="text-secondary">Create New Task</h3>
+            <div class="row">
+                <div class="col-md-4">
+                    @Html.LabelFor(x => x.Title, new { @class = "font-weight-bolder" })
+                </div>
+                <div class="col-md-8">
+                    @Html.TextBoxFor(x => x.Title, new { placeholder = "Enter Title", @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    @Html.Label("NosId", "Nos", new { @class = "font-weight-bolder" })
+                </div>
+                <div class="col-md-8">
+                    <select class="form-control" name="NosId" id="nos">
+                        <option disabled selected>Select Nos</option>
+                        @foreach (var nos in ViewBag.nosesList)
+                        {
+                            <option value="@nos.Value">@nos.Text</option>
+                        }
+                    </select>
+                    @Html.ValidationMessageFor(x => x.NosId, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    @Html.LabelFor(x => x.Description, new { @class = "font-weight-bolder" })
+                </div>
+                <div class="col-md-8">
+                    @Html.TextAreaFor(x => x.Description, new { placeholder = "Enter Description", @class = "form-control", @style = "min-height: 14em;" })
+                    @Html.ValidationMessageFor(x => x.Description, null, new { @class = "text-danger" })
+                    <hr />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    @*@Html.PartialAsync("_UploadForm", Model.Files)*@
+                    @Html.LabelFor(x => x.Files, new { @class = "font-weight-bolder" })
+                </div>
+                <div class="col-md-8">
+                    <div class="custom-file">
+                        <input type="file" name="files" multiple class="custom-file-input" id="customFileLang" lang="en-us">
+                        <label class="custom-file-label" for="customFileLang">Upload File</label>
+                    </div>
+                    @Html.ValidationMessageFor(x => x.files, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-4"></div>
+                <div class="col-md-8 text-right">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-6 text-center">
+            <h3 class="text-secondary">Task's Objective</h3>
+            <iframe id="ifrm" src="~/img/rsrs.pdf" style="width: 30em; height: 20em;"></iframe>
+        </div>
+
+    </div>
+    @*<button type="submit" class="btn btn-primary">Submit</button>*@
+</div>
+        
+}

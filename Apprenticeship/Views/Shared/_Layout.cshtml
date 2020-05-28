@@ -1,0 +1,280 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager // ApplicatonUser is the class that inherited IndentityUser
+@inject UserManager<IdentityUser> UserManager
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - Apprenticeship</title>
+
+    <!-- Custom fonts for this theme -->
+    <link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    
+    @*<environment include="Development">*@
+        <link rel="stylesheet" href="~/css/bootstrap.css" />
+    @*</environment>*@
+    @*<environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-href="~/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
+    </environment>*@
+    @*<link rel="stylesheet" href="~/css/site.css" />*@
+    <link rel="stylesheet" href="~/temp/css/site.css" />
+</head>
+@{
+    var path = @Context.Request.Path.ToString();
+    var login = path.Split('/');
+
+    var bodyMarginBottomCss = "";
+    if (login[login.Length - 1] == "Login") { bodyMarginBottomCss = "margin-bottom: 0px !important"; } else { bodyMarginBottomCss = "margin-bottom: 60px !important"; }
+
+    var bodyPaddingTopCss= "";
+    if(login[login.Length - 1] == "Login" || (login[login.Length - 2] == "Home" && login[login.Length - 1] == "Index") || (login[login.Length - 2] == "" && login[login.Length - 1] == "")) { bodyPaddingTopCss = "padding-top: 0rem !important"; } else { bodyPaddingTopCss = "padding-top: 10rem !important"; }
+
+}
+<body id="page-top" style="@bodyMarginBottomCss; @bodyPaddingTopCss" onload="initMap()">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand js-scroll-trigger" href="#page-top">Apprenticeship</a>
+                <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" asp-area="" asp-controller="Skill" asp-action="Index">Skills</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" asp-area="" asp-controller="Course" asp-action="Index">Courses</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" asp-area="" asp-controller="Placement" asp-action="Index">Placement</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Users
+                                </a>
+                                <div class="dropdown-menu" style="background-color: #2c3e50 !important;" aria-labelledby="navbarDropdown">
+                                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" asp-area="" asp-controller="User" asp-action="StudentIndex">Students</a>
+                                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" asp-area="" asp-controller="User" asp-action="SchoolMentorIndex">School Mentors</a>
+                                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" asp-area="" asp-controller="User" asp-action="WorkMentorIndex">Work Mentors</a>
+                                </div>
+                            </li>
+                        }
+                        else if (User.IsInRole("Student"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" asp-area="" asp-controller="Student" asp-action="TimeLine">Timeline</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" asp-area="" asp-controller="Tasks" asp-action="Index">Tasks</a>
+                            </li>
+                        }
+                        else if (User.IsInRole("WorkMentor"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" asp-area="" asp-controller="WorkMentor" asp-action="Tasks">Tasks</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" asp-area="" asp-controller="WorkMentor" asp-action="Students">Students</a>
+                            </li>
+                        }
+                        else if (User.IsInRole("SchoolMentor"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" asp-area="" asp-controller="SchoolMentor" asp-action="Tasks">Tasks</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" asp-area="" asp-controller="SchoolMentor" asp-action="Students">Students</a>
+                            </li>
+                        }
+
+
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+
+
+            </div>
+        </nav>
+    }
+
+    @if (login[login.Length - 1] == "Login" || login[login.Length - 1] == "")
+    {
+        <partial name="_CookieConsentPartial" />
+        <main role="main">
+            @RenderBody()
+        </main>
+    }
+    else
+    {
+        <div id="change" class="container">
+            <partial name="_CookieConsentPartial" />
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    }
+    @if (User.Identity.IsAuthenticated)
+    {
+        <!-- Footer -->
+
+        <footer class="footer text-center">
+            <div class="container">
+                <div class="row">
+
+                    <!-- Footer Location -->
+                    <div class="col-lg-4">
+                        <h4 class="text-uppercase mb-4">Contact & Location</h4>
+                        <p class="lead mb-0">
+                            Amman - King Hussein Business Park
+                            <br>Zain Habjouka, +962 6 580 8787
+                        </p>
+                    </div>
+
+                    <!-- Footer Social Icons -->
+                    <div class="col-lg-4">
+                        <h4 class="text-uppercase mb-4">Around the Web</h4>
+                        <a class="btn btn-outline-light btn-social mx-1" target="#" href="https://www.facebook.com/HTUjo/">
+                            <i class="fab fa-fw fa-facebook-f"></i>
+                        </a>
+                        <a class="btn btn-outline-light btn-social mx-1" target="#" href="https://twitter.com/HTUjo">
+                            <i class="fab fa-fw fa-twitter"></i>
+                        </a>
+                        <a class="btn btn-outline-light btn-social mx-1" target="#" href="https://www.linkedin.com/company/al-hussein-technical-university-htu/">
+                            <i class="fab fa-fw fa-linkedin-in"></i>
+                        </a>
+                        <a class="btn btn-outline-light btn-social mx-1" target="#" href="https://www.instagram.com/htujo/">
+                            <i class="fab fa-fw fa-instagram"></i>
+                        </a>
+                    </div>
+
+                    <!-- Footer About Text -->
+
+                    <div class="col-lg-4" style="overflow:visible !important" id="map"></div>
+
+                </div>
+            </div>
+        </footer>
+
+        <!-- Copyright Section -->
+        <section class="copyright py-4 text-center text-white">
+            <div class="container">
+                <small>Copyright &copy; Your Website 2019</small>
+            </div>
+        </section>
+    }
+    @*<environment include="Development">*@
+    <!-- Bootstrap core JavaScript -->
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    @*<script src="~/temp/lib/jquery/dist/jquery.js"></script>*@
+    @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>*@
+    @*<script src="~/temp/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css.map" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    @*<script src="~/lib/jquery/dist/jquery.js"></script>*@
+    @*<script src="~/js/jquery-3.4.1.min.js"></script>*@
+    @*<script src="~/js/mdb.js"></script>
+        <script src="~/js/mdb.min.js"></script>*@
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/modules/bs-custom-file-input.js"></script>
+    <script src="https://kit.fontawesome.com/ec0f235872.js" crossorigin="anonymous"></script>
+    <script src="~/js/freelancer.min.js"></script>
+
+    <script src="~/temp/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/temp/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script>
+        var map;
+        function initMap() {
+            // The location of Uluru
+
+            var uluru = { lat: 31.9724281, lng: 35.8325012 };
+
+            // The map, centered at Uluru
+
+            var map = new google.maps.Map(
+
+                document.getElementById('map'), { zoom: 13, center: uluru });
+
+            // The marker, positioned at Uluru
+
+            var marker = new google.maps.Marker({ position: uluru, map: map });
+
+
+        }
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4JJi1z7RC26-fAgUKQ5V3s_hWj_-vd1U&callback=initMap">
+    </script>
+    <script>
+        $(document).ready(function () {
+            var dropdown = $('#nos');
+            dropdown.on('change', function () {
+                var nos = dropdown.val();
+                $.ajax({
+                    type: 'GET',
+                    url: '/Tasks/GetNosUrl',
+                    contentType: 'application/json', // this
+                    datatype: 'json',
+                    data: { NosId: nos }, // and this
+                    success: function (data) {
+                        var ur = data + "&output=embed";
+                        alert(ur);
+                        $('#ifrm').attr('src', ur)
+                    }
+                });
+            });
+        });
+
+    </script>
+    <script>
+        $("#logoutbtn").click(function () {
+            $("#logOut").submit();
+            return false;
+        });
+    </script>
+    @*</environment>
+        <environment exclude="Development">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                    asp-fallback-test="window.jQuery"
+                    crossorigin="anonymous"
+                    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+            </script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                    crossorigin="anonymous"
+                    integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
+            </script>
+        </environment>*@
+    @*<script src="~/js/site.js" asp-append-version="true"></script>*@
+    <script src="~/temp/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

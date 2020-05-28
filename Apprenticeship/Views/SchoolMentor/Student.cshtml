@@ -1,0 +1,86 @@
+﻿
+@model Apprenticeship.Models.Intermediate.IntermediateStudent
+@{
+    ViewData["Title"] = Model.FirstName + Model.LastName;
+}
+<h1>@ViewData["Title"]</h1>
+
+<div class="form-group">
+    @Html.HiddenFor(x => x.Id)
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.FirstName, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-8">
+            @Html.TextBoxFor(x => x.FirstName, new { placeholder = "Enter Title", @class = "form-control", @readonly = "readonly" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.LastName, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-8">
+            @Html.TextAreaFor(x => x.LastName, new { placeholder = "Enter Title", @class = "form-control", @readonly = "readonly" })
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.PhoneNumber, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-8">
+            @Html.TextAreaFor(x => x.PhoneNumber, new { @class = "form-control", @readonly = "readonly" })
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.Email, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-8">
+            @Html.TextAreaFor(x => x.Email, new { @class = "form-control", @readonly = "readonly" })
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.Label("University name", "University name", new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-8">
+            @Html.TextAreaFor(x => x.CompanyName, new { @class = "form-control", @readonly = "readonly" })
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.MajorName, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-8">
+            @Html.TextAreaFor(x => x.MajorName, new { placeholder = "Enter Title", @class = "form-control", @readonly = "readonly" })
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.DegreeName, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-8">
+            @Html.TextAreaFor(x => x.DegreeName, new { placeholder = "Enter Title", @class = "form-control", @readonly = "readonly" })
+            <hr />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            @Html.Label("Skills", "Skills", new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-8">
+            <ul class="form-control" style="list-style-type:none">
+                @foreach (var skill in ViewBag.skills)
+                {
+                    <li>@skill</li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

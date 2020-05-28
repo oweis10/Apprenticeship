@@ -1,0 +1,17 @@
+﻿@model List<Apprenticeship.Models.Intermediate.IntermediateFile>
+
+@for (int i = 0; i < Model.Count; i++)
+{
+    @*<div class="form-group">
+        <label>Title</label>
+        <input class="form-control" asp-for="@Model[i].Title" />
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <input class="form-control" asp-for="@Model[i].Description" />
+    </div>*@
+    <div class="form-group">
+        <label></label>
+        <input type="file" asp-for="@Model[i].Files" />
+    </div>
+}

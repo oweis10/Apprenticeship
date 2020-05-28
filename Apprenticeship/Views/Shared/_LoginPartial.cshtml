@@ -1,0 +1,46 @@
+@using Microsoft.AspNetCore.Identity
+@using Apprenticeship.Repositories
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject IFriendlyUser _friendlyUser
+
+@{var userId = UserManager.GetUserId(User); var user = _friendlyUser.GetUser(userId);}
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+     <li class="nav-item dropdown">
+         <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger dropdown-toggle" style="color: #1abc9c !important;" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             @if (user == null)
+             {@User.Identity.Name <i class="fas fa-cog" style="margin-right:2px;"></i>}
+             else
+             { @user.FirstName <i class="fas fa-cog" style="margin-right:2px;"></i>}
+         </a>
+         <div class="dropdown-menu" style="background-color: #2c3e50 !important;" aria-labelledby="navbarDropdown">
+             <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger text-lowercase" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                 Profile
+             </a>
+             <form class="form-inline" asp-area="Identity" id="logOut" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                 @*<button type="submit" class="nav-link rounded js-scroll-trigger btn btn-link nav" style="color:white !important;">Logout</button>*@
+                 <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger text-lowercase" style="cursor: pointer;" onclick="document.getElementById('logOut').submit();" title="Manage">
+                     Logout
+                 </a>   
+             </form>
+         </div>
+     </li>
+        @*<li class="nav-item mx-0 mx-lg-1">
+            
+        </li>
+        <li class="nav-item  mx-0 mx-lg-1">
+            
+        </li>*@
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+</ul>
