@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -33,7 +34,10 @@ namespace Apprenticeship.Models.Intermediate
         public DateTime StartDate { get; set; }
         [Required]
         public DateTime EndDate { get; set; }
-
+        [Required]
+        [DisplayName("Student's Portfolio")]
+        public List<IFormFile> portfolio { get; set; }
+        public IntermediateFile portFolioFile { get; set; }
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (Noses.Count != 5)

@@ -8,6 +8,7 @@
         <thead>
             <tr>
                 <th class="text-left" scope="col">Student name</th>
+                <th class="text-left" scope="col">Portfolio</th>
             </tr>
         </thead>
         <tbody>
@@ -15,8 +16,8 @@
             {
                 <tr>
                     <td class="text-left" scope="col">@s.FirstName @s.LastName</td>
+                    <td class="text-left" scope="col"><a target="_blank" asp-controller="Student" asp-action="GetStudentPortfolio" asp-route-studentId="@s.Id" >@s.portFolioFile.Name</a></td>
                     <td class="text-right" scope="col">
-                        @Html.ActionLink("TimeLine", "TimeLine", "Student", new { studentId = @s.Id }, new { @class = "btn btn-primary" })
                         @Html.ActionLink("Tasks", "StudentTasks", "Tasks", new { studentId = @s.Id }, new { @class = "btn btn-primary" })
                         @Html.ActionLink("Profile", "Student", "WorkMentor", new { studentId = @s.Id }, new { @class = "btn btn-primary" })
                     </td>

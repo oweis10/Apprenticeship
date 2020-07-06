@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Apprenticeship.Models;
@@ -127,8 +128,32 @@ namespace Apprenticeship.Controllers
 
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
+                    long size = intermediatePlacement.portfolio.Sum(f => f.Length);
+
+                    IntermediateFile intermediatPortFolioFile;
+                    foreach (var formFile in intermediatePlacement.portfolio)
+                    {
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", formFile.FileName);
+                        if (formFile.Length > 0)
+                        {
+                            Stream st = formFile.OpenReadStream();
+                            using (BinaryReader br = new BinaryReader(st))
+                            {
+                                var byteFile = br.ReadBytes((int)st.Length);
+                                intermediatPortFolioFile = new IntermediateFile()
+                                {
+                                    ContentType = formFile.ContentType,
+                                    File = byteFile,
+                                    Name = formFile.FileName
+                                };
+
+                            }
+                            intermediatePlacement.portFolioFile = intermediatPortFolioFile;
+                        }
+                    }
+
                     _placementRepository.InsertPlacement(intermediatePlacement, Noses);
                     return RedirectToAction("Index", "Placement");
                 }

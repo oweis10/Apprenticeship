@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -54,5 +55,7 @@ namespace Apprenticeship.Models.Intermediate
         public string EmergencyContactFullName { get; set; }
         [DisplayName("Emergency Contact Phone")]
         public string EmergencyContactPhoneNumber { get; set; }
+        public List<IFormFile> portfolio { get; set; }
+        public IntermediateFile portFolioFile { get; set; }
     }
 }

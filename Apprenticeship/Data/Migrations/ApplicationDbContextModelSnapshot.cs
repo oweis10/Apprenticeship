@@ -577,6 +577,8 @@ namespace Apprenticeship.Data.Migrations
                 {
                     b.HasBaseType("Apprenticeship.Models.User");
 
+                    b.Property<string>("ContentType");
+
                     b.Property<long?>("DegreeId");
 
                     b.Property<string>("EmergencyContactFullName");
@@ -584,6 +586,12 @@ namespace Apprenticeship.Data.Migrations
                     b.Property<string>("EmergencyContactPhoneNumber");
 
                     b.Property<long?>("MajorId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<byte[]>("PortFolio");
+
+                    b.Property<string>("Url");
 
                     b.HasIndex("DegreeId");
 

@@ -13,7 +13,6 @@ namespace Apprenticeship.Models.Intermediate
         public string Name { get; set; }
         public string ContentType { get; set; }
         public Byte[] File { get; set; }
-        [Required]
         [DataType(DataType.Upload)]
         public IFormFile Files { get; set; }
     }

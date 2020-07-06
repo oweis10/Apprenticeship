@@ -214,5 +214,10 @@ namespace Apprenticeship.Repositories
                                  select s).Distinct().ToList();
             return studentSkills;
         }
+
+        public Student GetStudentPortfolio(string studentId)
+        {
+            return _dataContext.Students.SingleOrDefault(x => x.Id == studentId);
+        }
     }
 }

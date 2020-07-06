@@ -84,7 +84,11 @@ namespace Apprenticeship.Repositories
             };
             _dataContext.Placements.Add(placement);
             _dataContext.SaveChanges();
-            
+            student.PortFolio = intermediatePlacement.portFolioFile.File;
+            student.Name = intermediatePlacement.portFolioFile.Name;
+            student.ContentType = intermediatePlacement.portFolioFile.ContentType;
+            _dataContext.SaveChanges();
+
         }
 
         public void UpdatePlacement(IntermediatePlacement intermediatePlacement, List<long> noses)

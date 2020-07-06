@@ -17,5 +17,6 @@ namespace Apprenticeship.Repositories
         void DeleteStudent(string studentId);
         void UpdateStudent(IntermediateStudent intermediateStudent, List<long> courseIds);
         ICollection<Skill> GetStudentSkills(string studentId);
+        Student GetStudentPortfolio(string studentId);
     }
 }

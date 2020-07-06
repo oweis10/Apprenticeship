@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -49,8 +50,30 @@ namespace Apprenticeship.Controllers
             dynamic student = new ExpandoObject();
             try
             {
+
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                student.students = _workMentorRepository.GetWorkMentorStudents(userId);
+                var students = _workMentorRepository.GetWorkMentorStudents(userId);
+
+                List<IntermediateStudent> intermediateStudents = new List<IntermediateStudent>();
+                foreach (var stu in students)
+                {
+                    var intermediateFile = new IntermediateFile()
+                    {
+                        File = stu.PortFolio,
+                        Name = stu.Name,
+                        ContentType = stu.ContentType
+                    };
+                    var intermediateStudent = new IntermediateStudent()
+                    {
+                        FirstName = stu.FirstName,
+                        SecondName = stu.SecondName,
+                        Id = stu.Id,
+                        portFolioFile = intermediateFile
+                    };
+                    intermediateStudents.Add(intermediateStudent);
+
+                }
+                student.students = intermediateStudents;
                 return View(student);
             }
             catch (Exception e)
@@ -108,6 +131,16 @@ namespace Apprenticeship.Controllers
             {
                 return RedirectToAction("Students", "WorkMentor");
             }
+
+        }
+
+        [Authorize]
+        public FileStreamResult GetStudentPortfolio(string studentId)
+        {
+
+            var student = _studentRepository.GetStudentPortfolio(studentId);
+            Stream stream = new MemoryStream(student.PortFolio);
+            return new FileStreamResult(stream, student.ContentType);
 
         }
     }

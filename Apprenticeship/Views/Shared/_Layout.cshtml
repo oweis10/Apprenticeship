@@ -242,8 +242,8 @@
                     datatype: 'json',
                     data: { NosId: nos }, // and this
                     success: function (data) {
-                        var ur = data + "&output=embed";
-                        alert(ur);
+                        var ur = data;
+                        //alert(ur);
                         $('#ifrm').attr('src', ur)
                     }
                 });
