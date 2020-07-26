@@ -5,7 +5,7 @@
 <h1>@ViewData["Title"]</h1>
 
 
-@using (@Html.BeginForm("Edit", "Placement", FormMethod.Post))
+@using (@Html.BeginForm("Edit", "Placement", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(x => x.Id)
@@ -137,6 +137,20 @@
         </div>
         <div class="col-md-3">
             @Html.ValidationMessageFor(x => x.Noses, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.portfolio, new { @class = "font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            <div class="custom-file">
+                <input type="file" name="portfolio" multiple class="custom-file-input" id="customFileLang" lang="en-us">
+                <label class="custom-file-label" for="customFileLang">Upload File</label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.portfolio, null, new { @class = "text-danger" })
         </div>
     </div>
 </div>

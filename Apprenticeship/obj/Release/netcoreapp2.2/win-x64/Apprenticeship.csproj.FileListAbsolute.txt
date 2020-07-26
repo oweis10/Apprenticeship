@@ -74,3 +74,4 @@ C:\Users\khaled.owais\source\repos\Apprenticeship\Apprenticeship\obj\Release\net
 C:\Users\khaled.owais\source\repos\Apprenticeship\Apprenticeship\obj\Release\netcoreapp2.2\win-x64\Apprenticeship.dll
 C:\Users\khaled.owais\source\repos\Apprenticeship\Apprenticeship\obj\Release\netcoreapp2.2\win-x64\Apprenticeship.pdb
 C:\Users\khaled.owais\source\repos\Apprenticeship\Apprenticeship\obj\Release\netcoreapp2.2\win-x64\Apprenticeship.csproj.CopyComplete
+C:\Users\khaled.owais\source\repos\Apprenticeship\Apprenticeship\obj\Release\netcoreapp2.2\win-x64\Razor\Views\Shared\_UploadForm.g.cshtml.cs

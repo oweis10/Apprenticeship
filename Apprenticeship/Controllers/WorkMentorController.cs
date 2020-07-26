@@ -137,7 +137,6 @@ namespace Apprenticeship.Controllers
         [Authorize]
         public FileStreamResult GetStudentPortfolio(string studentId)
         {
-
             var student = _studentRepository.GetStudentPortfolio(studentId);
             Stream stream = new MemoryStream(student.PortFolio);
             return new FileStreamResult(stream, student.ContentType);

@@ -93,6 +93,7 @@ namespace Apprenticeship.Repositories
 
         public void UpdatePlacement(IntermediatePlacement intermediatePlacement, List<long> noses)
         {
+            var student = _dataContext.Students.SingleOrDefault(x => x.Id == intermediatePlacement.StudentId);
             var placement = _dataContext.Placements.Where(x => x.Deleted == false).SingleOrDefault(x => x.Id == intermediatePlacement.Id);
 
             var placementNoses = _dataContext.PlacementsNoses.Where(x => x.PlacementId == placement.Id).ToList();
@@ -108,7 +109,10 @@ namespace Apprenticeship.Repositories
             placement.StartDate = intermediatePlacement.StartDate;
             placement.EndDate = intermediatePlacement.EndDate;
             placement.Modified = true;
-
+            _dataContext.SaveChanges();
+            student.PortFolio = intermediatePlacement.portFolioFile.File;
+            student.Name = intermediatePlacement.portFolioFile.Name;
+            student.ContentType = intermediatePlacement.portFolioFile.ContentType;
             _dataContext.SaveChanges();
 
             //foreach (var nos in noses)
