@@ -92,6 +92,7 @@
                             <li class="nav-item">
                                 <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" asp-area="" asp-controller="WorkMentor" asp-action="Students">Students</a>
                             </li>
+
                         }
                         else if (User.IsInRole("SchoolMentor"))
                         {
@@ -107,8 +108,6 @@
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
-
-
             </div>
         </nav>
     }

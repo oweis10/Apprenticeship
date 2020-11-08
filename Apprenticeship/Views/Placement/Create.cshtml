@@ -8,7 +8,9 @@
 @using (@Html.BeginForm("Create", "Placement", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    
 <div class="form-group">
+    <div class="text-danger font-weight-bold text-center">@ViewBag.errorMsg</div>
     <div class="row">
         <div class="col-md-2">
             @Html.LabelFor(x => x.CompanyName, new { @class = "form-control font-weight-bolder" })
@@ -95,7 +97,7 @@
     </div>
     <div class="row">
         <div class="col-md-2">
-            @Html.Label("Noses", "Noses", new { @class = "form-control font-weight-bolder" })
+            @Html.Label("Noses", "Nos Units", new { @class = "form-control font-weight-bolder" })
         </div>
         <div class="col-md-5">
             <select class="selectpicker form-control" multiple data-live-search="true" name="Noses">

@@ -120,6 +120,7 @@ namespace Apprenticeship.Controllers
                 if (result.Succeeded)
                 {
                     await _studentRepository.InsertStudentAsync(intermediateStudent, student.Id);
+                    SendMail(intermediateStudent.Email, $"{intermediateStudent.FirstName} {intermediateStudent.LastName}", intermediateStudent.Password);
                     //var result1 = await _userManager.AddToRoleAsync(student, Roles.Student.ToString());
                     return RedirectToAction("StudentIndex", "User");
                 }
@@ -559,13 +560,13 @@ namespace Apprenticeship.Controllers
                 message.To.Add(new MailAddress(email));
                 message.From = new MailAddress("eservices@HTU.EDU.JO");
                 message.Subject = "New E-Mail from HTU";
-                message.Body = $"Dear {name},<br/><br/>A new account has been created for you at HTU-Apprenticeship and you have been issued with a new temporary password.<br/>Your current login information is now:<br/><br/>username: {email}<br/>password: {password}<br/><br/>You can change your password from your settings,<br/>Thank you.";
+                message.Body = $"Dear {name},<br/><br/>A new account has been created for you at HTU-Apprenticeship and you have been issued with a new temporary password.<br/>Your current login information is now:<br/><br/>username: {email}<br/>password: {password}<br/><br/>You can change your password from your settings,<br/><br/>here is the link to your portal: https://213.186.163.242:2000 <br/>Thank you.";
                 message.IsBodyHtml = true;
                 using (var smtpClient = new SmtpClient("smtp.office365.com", 587))
                 {
                     smtpClient.EnableSsl = true;
                     smtpClient.UseDefaultCredentials = false;
-                    smtpClient.Credentials = new NetworkCredential("eservices@HTU.EDU.JO", "P@ssw0rd");
+                    smtpClient.Credentials = new NetworkCredential("eservices@HTU.EDU.JO", "CsJ.c3\\Nf[@(");
                     smtpClient.Send(message);
                 }
             }

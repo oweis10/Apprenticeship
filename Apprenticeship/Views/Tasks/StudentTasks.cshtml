@@ -65,10 +65,14 @@
                                 {
                                     <td class="text-left text-success" scope="col">@s.Status</td>
                                 }
-                                <td class="text-right" scope="col">
-                                    @Html.ActionLink("View", "ViewTask", "Tasks", new { taskId = s.Id }, new { @class = "btn btn-primary" })
+                            <td class="text-right" scope="col">
+                                @Html.ActionLink("View", "ViewTask", "Tasks", new { taskId = s.Id }, new { @class = "btn btn-primary" })
+                                @if (s.Status == ReportApprovalStatus.PendingApproval)
+                                {
                                     @Html.ActionLink("Approve", "Approve", "Tasks", new { taskId = s.Id }, new { @class = "btn btn-primary", @onclick = "return confirm('Are you sure?');" })
-                                </td>
+                                }
+
+                            </td>
                             </tr>
                         }
                         else

@@ -63,31 +63,44 @@ namespace Apprenticeship.Repositories
 
         public ICollection<Placement> GetPlacements()
         {
-            return _dataContext.Placements.Include(x => x.Student).Include(x => x.WorkMentor).Include(x => x.SchoolMentor).ToList();
+            return _dataContext.Placements.Include(x => x.Student).Include(x => x.WorkMentor).Include(x => x.SchoolMentor).Where(x=> x.Deleted == false).ToList();
         }
 
-        public void InsertPlacement(IntermediatePlacement intermediatePlacement, List<long> noses)
+        public bool InsertPlacement(IntermediatePlacement intermediatePlacement, List<long> noses)
         {
             var student = _dataContext.Students.SingleOrDefault(x => x.Id == intermediatePlacement.StudentId);
             var schoolMentor = _dataContext.SchoolMentors.SingleOrDefault(x => x.Id == intermediatePlacement.SchoolMentorId);
             var workMentor = _dataContext.WorkMentors.SingleOrDefault(x => x.Id == intermediatePlacement.WorkMentorId);
-            var placement = new Placement()
+            var checkStudent = _dataContext.Placements.Include(x => x.Student).Where(x => x.StudentId == student.Id && x.Deleted == false).FirstOrDefault();
+
+            if(checkStudent == null)
             {
-                CompanyName = intermediatePlacement.CompanyName,
-                Deleted = false,
-                StartDate = DateTime.Parse(intermediatePlacement.StartDate.ToShortDateString()),
-                EndDate = DateTime.Parse(intermediatePlacement.EndDate.ToShortDateString()),
-                Student = student,
-                SchoolMentor = schoolMentor,
-                WorkMentor = workMentor,
-                PlacementsNoses = noses.Select(x => new PlacementsNoses() { NosId = x}).ToList()
-            };
-            _dataContext.Placements.Add(placement);
-            _dataContext.SaveChanges();
-            student.PortFolio = intermediatePlacement.portFolioFile.File;
-            student.Name = intermediatePlacement.portFolioFile.Name;
-            student.ContentType = intermediatePlacement.portFolioFile.ContentType;
-            _dataContext.SaveChanges();
+                var placement = new Placement()
+                {
+                    CompanyName = intermediatePlacement.CompanyName,
+                    Deleted = false,
+                    StartDate = DateTime.Parse(intermediatePlacement.StartDate.ToShortDateString()),
+                    EndDate = DateTime.Parse(intermediatePlacement.EndDate.ToShortDateString()),
+                    Student = student,
+                    SchoolMentor = schoolMentor,
+                    WorkMentor = workMentor,
+                    PlacementsNoses = noses.Select(x => new PlacementsNoses() { NosId = x }).ToList()
+                };
+                _dataContext.Placements.Add(placement);
+                _dataContext.SaveChanges();
+                student.PortFolio = intermediatePlacement.portFolioFile.File;
+                student.Name = intermediatePlacement.portFolioFile.Name;
+                student.ContentType = intermediatePlacement.portFolioFile.ContentType;
+                _dataContext.SaveChanges();
+
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
+            
 
         }
 

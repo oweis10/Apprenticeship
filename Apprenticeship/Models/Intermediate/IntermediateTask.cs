@@ -25,5 +25,6 @@ namespace Apprenticeship.Models.Intermediate
         public List<IntermediateComment> Comments { get; set; }
         public string Status { get; set; }
         public string StudentId { get; set; }
+        public DateTime CreateTime { get; set; }
     }
 }

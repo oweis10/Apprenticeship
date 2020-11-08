@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Apprenticeship.Data;
 using Apprenticeship.Models.Intermediate;
 using Apprenticeship.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -32,7 +33,8 @@ namespace Apprenticeship.Controllers
             dynamic task = new ExpandoObject();
             try
             {
-                task.tasks = _taskRepository.GetTasks(null);
+                var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                task.tasks = _taskRepository.GetTasks(id);
                 return View(task);
             }
             catch (Exception e)
@@ -158,7 +160,8 @@ namespace Apprenticeship.Controllers
                     Comment = comment.Comment,
                     CommentId = comment.Id,
                     CommenterName = comment.User.FirstName+" "+comment.User.LastName,
-                    CommenterId = comment.UserId
+                    CommenterId = comment.UserId,
+                    Date = comment.Date
                 });
             }
             intermediateTask.Comments = intermediateComments;
@@ -261,6 +264,7 @@ namespace Apprenticeship.Controllers
             dynamic task = new ExpandoObject();
             try
             {
+                var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 task.tasks = _taskRepository.GetTasks(studentId);
                 return View(task);
             }

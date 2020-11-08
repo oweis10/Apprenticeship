@@ -26,11 +26,16 @@
                             {
                                 <div class="card border-success shadow">
                                     <div class="card-body">
-                                        <div class="float-right text-success small">@DateTime.Now</div>
+                                        <div class="float-right text-success small">@s.CreateTime</div>
                                         <h4 class="card-title text-success">@s.Title</h4>
                                         <h6 class="card-title text-success">@s.Status</h6>
+                                        <a href="@s.Nos.Url" target="_blank" class="float-left">@s.Nos.Name</a>
+                                        <br />
+                                        <br />
+                                        <br />
                                         <p class="card-text">@s.Description</p>
                                         <button class="btn btn-sm btn-outline-secondary" type="button" data-target="#t22_details_@(counter)" data-toggle="collapse">Show Details ▼</button>
+
                                         <div class="collapse border" id="t22_details_@(counter)">
                                             <div class="p-2 text-monospace">
                                                 @foreach (var file in s.TaskFiles)
@@ -47,11 +52,15 @@
                             {
                                 <div class="card border-info shadow">
                                     <div class="card-body">
-                                        <div class="float-right text-info small">@DateTime.Now</div>
+                                        <div class="float-right text-info small">@s.CreateTime</div>
                                         <h4 class="card-title text-info">@s.Title</h4>
                                         <h6 class="card-title text-info">Pending Approval</h6>
+                                        <a href="@s.Nos.Url" target="_blank" class="float-left">@s.Nos.Name</a>
+                                        <br />
+                                        <br />
                                         <p class="card-text">@s.Description</p>
                                         <button class="btn btn-sm btn-outline-secondary" type="button" data-target="#t22_details_@(counter)" data-toggle="collapse">Show Details ▼</button>
+
                                         <div class="collapse border" id="t22_details_@(counter)">
                                             <div class="p-2 text-monospace">
                                                 @foreach (var file in s.TaskFiles)
@@ -68,11 +77,15 @@
                             {
                                 <div class="card border-danger shadow">
                                     <div class="card-body">
-                                        <div class="float-right text-danger small">@DateTime.Now</div>
+                                        <div class="float-right text-danger small">@s.CreateTime</div>
                                         <h4 class="card-title text-danger">@s.Title</h4>
                                         <h6 class="card-title text-danger">@s.Status</h6>
+                                        <a href="@s.Nos.Url" target="_blank" class="float-left">@s.Nos.Name</a>
+                                        <br />
+                                        <br />
                                         <p class="card-text">@s.Description</p>
                                         <button class="btn btn-sm btn-outline-secondary" type="button" data-target="#t22_details_@(counter)" data-toggle="collapse">Show Details ▼</button>
+
                                         <div class="collapse border" id="t22_details_@(counter)">
                                             <div class="p-2 text-monospace">
                                                 @foreach (var file in s.TaskFiles)
@@ -154,11 +167,15 @@
                             {
                                 <div class="card border-success shadow">
                                     <div class="card-body">
-                                        <div class="float-right text-success small">@DateTime.Now</div>
+                                        <div class="float-right text-success small">@s.CreateTime</div>
                                         <h4 class="card-title text-success">@s.Title</h4>
                                         <h5 class="card-title text-success">@s.Status</h5>
+                                        <a href="@s.Nos.Url" target="_blank" class="float-left">@s.Nos.Name</a>
+                                        <br />
+                                        <br />
                                         <p class="card-text">@s.Description</p>
                                         <button class="btn btn-sm btn-outline-secondary" type="button" data-target="#t22_details_@(counter)" data-toggle="collapse">Show Details ▼</button>
+
                                         <div class="collapse border" id="t22_details_@(counter)">
                                             <div class="p-2 text-monospace">
                                                 @foreach (var file in s.TaskFiles)
@@ -175,11 +192,15 @@
                             {
                                 <div class="card border-info shadow">
                                     <div class="card-body">
-                                        <div class="float-right text-info small">@DateTime.Now</div>
+                                        <div class="float-right text-info small">@s.CreateTime</div>
                                         <h4 class="card-title text-info">@s.Title</h4>
                                         <h6 class="card-title text-info">Pending Approval</h6>
+                                        <a href="@s.Nos.Url" target="_blank" class="float-left">@s.Nos.Name</a>
+                                        <br />
+                                        <br />
                                         <p class="card-text">@s.Description</p>
                                         <button class="btn btn-sm btn-outline-secondary" type="button" data-target="#t22_details_@(counter)" data-toggle="collapse">Show Details ▼</button>
+
                                         <div class="collapse border" id="t22_details_@(counter)">
                                             <div class="p-2 text-monospace">
                                                 @foreach (var file in s.TaskFiles)
@@ -196,11 +217,16 @@
                             {
                                 <div class="card border-danger shadow">
                                     <div class="card-body">
-                                        <div class="float-right text-danger small">@DateTime.Now</div>
+                                        <div class="float-right text-danger small">@s.CreateTime</div>
                                         <h4 class="card-title text-danger">@s.Title</h4>
                                         <h6 class="card-title text-danger">@s.Status</h6>
+                                        <a href="@s.Nos.Url" target="_blank" class="float-left">@s.Nos.Name</a>
+                                        <br />
+                                        <br />
                                         <p class="card-text">@s.Description</p>
+
                                         <button class="btn btn-sm btn-outline-secondary" type="button" data-target="#t22_details_@(counter)" data-toggle="collapse">Show Details ▼</button>
+
                                         <div class="collapse border" id="t22_details_@(counter)">
                                             <div class="p-2 text-monospace">
                                                 @foreach (var file in s.TaskFiles)

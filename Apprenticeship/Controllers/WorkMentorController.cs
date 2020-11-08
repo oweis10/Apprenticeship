@@ -67,6 +67,7 @@ namespace Apprenticeship.Controllers
                     {
                         FirstName = stu.FirstName,
                         SecondName = stu.SecondName,
+                        LastName = stu.LastName,
                         Id = stu.Id,
                         portFolioFile = intermediateFile
                     };
@@ -95,6 +96,12 @@ namespace Apprenticeship.Controllers
                 {
                     studentCourses.Add(sc.CourseId);
                 }
+                var intermediateFile = new IntermediateFile()
+                {
+                    File = student.PortFolio,
+                    Name = student.Name,
+                    ContentType = student.ContentType
+                };
                 var intermediateStudent = new IntermediateStudent()
                 {
                     Id = student.Id,
@@ -112,9 +119,10 @@ namespace Apprenticeship.Controllers
                     DegreeName = student.Degree.Name,
                     MajorName = student.Major.Name,
                     CompanyName = student.CompanyName,
-                    Email = student.Email
-                    
-                    
+                    Email = student.Email,
+                    portFolioFile = intermediateFile
+
+
                 };
                 ICollection<Skill> skills = _studentRepository.GetStudentSkills(studentId);
                 

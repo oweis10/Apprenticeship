@@ -11,5 +11,6 @@ namespace Apprenticeship.Models.Intermediate
         public long CommentId { get; set; }
         public string CommenterId { get; set; }
         public string CommenterName { get; set; }
+        public DateTime Date { get; set; }
     }
 }

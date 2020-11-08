@@ -16,6 +16,7 @@ namespace Apprenticeship.Models
         public string Note { get; set; }
         public Nos Nos { get; set; }
         public long NosId { get; set; }
+        public DateTime CreateTime { get; set; }
         public ICollection<TaskFiles> TaskFiles { get; set; }
         public ICollection<TasksComments> TasksComments { get; set; }
         public ReportApprovalStatus Status { get; set; }

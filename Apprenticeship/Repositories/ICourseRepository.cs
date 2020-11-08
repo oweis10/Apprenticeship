@@ -10,7 +10,7 @@ namespace Apprenticeship.Repositories
     {
         CoursesSkills GetCourse(long courseId, long skillId);
         ICollection<CoursesSkills> GetCourses();
-        void InsertCourse(string courseName, long skillId);
+        void InsertCourse(string courseName, List<long> skillIds);
         void DeleteCourse(long CourseId);
         void UpdateCourse(string courseName, long courseId, List<long> skillIds);
         ICollection<Skill> GetCourseSkills(long courseId);

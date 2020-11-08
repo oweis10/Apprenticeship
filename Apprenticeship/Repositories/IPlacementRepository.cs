@@ -11,10 +11,11 @@ namespace Apprenticeship.Repositories
     {
         IntermediatePlacement GetPlacement(long placementId);
         ICollection<Placement> GetPlacements();
-        void InsertPlacement(IntermediatePlacement intermediatePlacement, List<long> noses);
+        bool InsertPlacement(IntermediatePlacement intermediatePlacement, List<long> noses);
         void DeletePlacement(long placementId);
         void UpdatePlacement(IntermediatePlacement intermediatePlacement, List<long> noses);
         ICollection<Nos> GetNoses();
         ICollection<Nos> GetPlacementNoses(long placementId);
+
     }
 }

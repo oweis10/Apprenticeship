@@ -4,6 +4,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using Apprenticeship.Models;
+using Apprenticeship.Models.Intermediate;
 using Apprenticeship.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -61,12 +62,12 @@ namespace Apprenticeship.Controllers
         }
 
         [Authorize]
-        public IActionResult Create(CoursesSkills coursesSkills)
+        public IActionResult Create(IntermediateCourse courses)
         {
 
             try
             {
-                _courseRepository.InsertCourse(coursesSkills.Course.CourseName, coursesSkills.SkillId);
+                _courseRepository.InsertCourse(courses.CourseName, courses.SkillIds);
                 return RedirectToAction("Index", "Course");
             }
             catch

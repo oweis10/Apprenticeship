@@ -1,16 +1,21 @@
-﻿@model Apprenticeship.Models.CoursesSkills
+﻿@model Apprenticeship.Models.Intermediate.IntermediateCourse
 @{
     ViewData["Title"] = "Create Course";
 }
 <h1>@ViewData["Title"]</h1>
-
+<style>
+    .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn)
+    {
+        width:100%!important;
+    }
+</style>
 
 @using (@Html.BeginForm("Create", "Course", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     <div class="form-group">
-        @Html.TextBoxFor(x => x.Course.CourseName, new { placeholder = "Enter Course", @class = "form-control" })
-        <select class="selectpicker form-control" multiple data-live-search="true" name="skillId">
+        @Html.TextBoxFor(x => x.CourseName, new { placeholder = "Enter Course", @class = "form-control" })
+        <select class="selectpicker form-control" multiple data-live-search="true" name="skillIds">
             <option disabled selected>Select Skills</option>
             @foreach (var skill in ViewBag.Skills)
             {

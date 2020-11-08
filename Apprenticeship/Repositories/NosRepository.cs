@@ -43,7 +43,7 @@ namespace Apprenticeship.Repositories
 
         public ICollection<Nos> GetStudentNoses(string studentId)
         {
-            var noses = _dataContext.PlacementsNoses.Include(x => x.Nos).Where(x => x.Placement.StudentId == studentId).Select(x => x.Nos).ToList();
+            var noses = _dataContext.PlacementsNoses.Include(x => x.Nos).Where(x => x.Placement.StudentId == studentId && x.Deleted == false).Select(x => x.Nos).ToList();
             return noses;
         }
 

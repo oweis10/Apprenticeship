@@ -18,6 +18,7 @@
                     <td class="text-left" scope="col">@s.FirstName @s.LastName</td>
                     <td class="text-left" scope="col"><a target="_blank" href=@Url.Action("GetStudentPortfolio", "WorkMentor", new {studentId = @s.Id}) id="@s.Id">@s.portFolioFile.Name</a></td>
                     <td class="text-right" scope="col">
+                        @Html.ActionLink("TimeLine", "TimeLine", "Student", new { studentId = @s.Id }, new { @class = "btn btn-primary" })
                         @Html.ActionLink("Tasks", "StudentTasks", "Tasks", new { studentId = @s.Id }, new { @class = "btn btn-primary" })
                         @Html.ActionLink("Profile", "Student", "WorkMentor", new { studentId = @s.Id }, new { @class = "btn btn-primary" })
                     </td>

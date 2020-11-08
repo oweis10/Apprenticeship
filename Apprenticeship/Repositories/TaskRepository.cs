@@ -28,12 +28,12 @@ namespace Apprenticeship.Repositories
         {
             if(studentId == null)
             {
-                var tasks = _dataContext.Tasks.Where(x => x.Deleted == false).Include(x => x.Student).Include(x => x.TaskFiles).Include(x => x.TaskFiles).Include(x => x.TasksComments).ToList();
+                var tasks = _dataContext.Tasks.Where(x => x.Deleted == false).Include(x => x.Nos).Include(x => x.Student).Include(x => x.TaskFiles).Include(x => x.TaskFiles).Include(x => x.TasksComments).OrderBy(x=> x.CreateTime).ToList();
                 return tasks;
             }
             else
             {
-                var tasks = _dataContext.Tasks.Where(x => x.Deleted == false).Include(x => x.Student).Where(x => x.Student.Id == studentId.ToString()).Include(x => x.TaskFiles).Include(x => x.TaskFiles).Include(x => x.TasksComments).ToList();
+                var tasks = _dataContext.Tasks.Where(x => x.Deleted == false && x.StudentId == studentId).Include(x => x.Nos).Include(x => x.Student).Include(x => x.TaskFiles).Include(x => x.TaskFiles).Include(x => x.TasksComments).ToList();
                 return tasks;
             }
             
@@ -73,7 +73,9 @@ namespace Apprenticeship.Repositories
                 Deleted = false,
                 Student = student,
                 Status = ReportApprovalStatus.PendingApproval,
-                NosId = intermediatTask.NosId
+                NosId = intermediatTask.NosId,
+                CreateTime = DateTime.Now
+                
             };
 
             _dataContext.Tasks.Add(task);
@@ -151,7 +153,8 @@ namespace Apprenticeship.Repositories
                 TaskId = taskId,
                 User = user,
                 UserId = userId,
-                Deleted = false
+                Deleted = false,
+                Date = DateTime.Now
             };
 
             _dataContext.TasksComments.Add(Comment);

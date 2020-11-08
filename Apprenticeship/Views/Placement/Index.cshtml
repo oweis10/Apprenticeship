@@ -14,6 +14,8 @@
                 <th class="text-left" scope="col">School mentor name</th>
                 <th class="text-left" scope="col">Work mentor name</th>
                 <th class="text-left" scope="col">Company name</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -26,7 +28,8 @@
                     <td class="text-left" scope="col">@s.CompanyName</td>
                     <td class="text-right" scope="col">
                     @Html.ActionLink("Edit", "EditView", "Placement", new { placementId = s.Id }, new { @class = "btn btn-primary" })
-                    @Html.ActionLink("Delete", "Delete", "Placement", new { placementId = s.Id }, new { @class = "btn btn-danger", @onclick = "return confirm('Are you sure?');" })</td>
+                    @Html.ActionLink("Delete", "Delete", "Placement", new { placementId = s.Id }, new { @class = "btn btn-danger", @onclick = "return confirm('Are you sure?');" })
+                    </td>
                 </tr>
             }
         </tbody>

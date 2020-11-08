@@ -61,7 +61,7 @@ namespace Apprenticeship.Repositories
             return query;
         }
 
-        public void InsertCourse(string courseName, long skillId)
+        public void InsertCourse(string courseName, List<long> skillIds)
         {
             Course course = new Course()
             {
@@ -70,18 +70,19 @@ namespace Apprenticeship.Repositories
             };
             _dataContext.Courses.Add(course);
             _dataContext.SaveChanges();
-
-            var skill = (from s in _dataContext.Skills
-                        where s.Id == skillId && s.Deleted == false
-                        select s).SingleOrDefault();
-            CoursesSkills coursesSkill = new CoursesSkills()
+            foreach(var skillId in skillIds)
             {
-                CourseId = course.CourseId,
-                SkillId = skill.Id,
-                Deleted = false
-            };
-            _dataContext.CoursesSkills.Add(coursesSkill);
-            _dataContext.SaveChanges();
+                CoursesSkills coursesSkill = new CoursesSkills()
+                {
+                    CourseId = course.CourseId,
+                    SkillId = skillId,
+                    Deleted = false
+                };
+                _dataContext.CoursesSkills.Add(coursesSkill);
+                _dataContext.SaveChanges();
+
+            }
+            
         }
         public void DeleteCourse(long courseId)
         {

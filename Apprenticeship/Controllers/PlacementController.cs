@@ -154,8 +154,18 @@ namespace Apprenticeship.Controllers
                         }
                     }
 
-                    _placementRepository.InsertPlacement(intermediatePlacement, Noses);
-                    return RedirectToAction("Index", "Placement");
+                    var result = _placementRepository.InsertPlacement(intermediatePlacement, Noses);
+                    if(result)
+                    {
+                        return RedirectToAction("Index", "Placement");
+                    }
+                    else
+                    {
+                        FillListItems();
+                        ViewBag.errorMsg = "This student is already in another Placement";
+                        return View(intermediatePlacement);
+                    }
+                    
                 }
                 else
                 {
@@ -353,6 +363,11 @@ namespace Apprenticeship.Controllers
                 return RedirectToAction("Index", "Placement");
             }
 
+        }
+        public IActionResult Delete(long placementId)
+        {
+            _placementRepository.DeletePlacement(placementId);
+            return RedirectToAction("Index", "Placement");
         }
     }
 }

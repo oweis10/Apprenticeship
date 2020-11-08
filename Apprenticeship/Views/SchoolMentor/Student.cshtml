@@ -44,6 +44,15 @@
     </div>
     <div class="row">
         <div class="col-md-2">
+            @Html.LabelFor(x => x.portfolio, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-8">
+            <a target="_blank" href=@Url.Action("GetStudentPortfolio", "WorkMentor", new {studentId = Model.Id}) id="@Model.Id">@Model.portFolioFile.Name</a>
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
             @Html.Label("University name", "University name", new { @class = "form-control font-weight-bolder" })
         </div>
         <div class="col-md-8">
@@ -75,7 +84,7 @@
             @Html.Label("Skills", "Skills", new { @class = "form-control font-weight-bolder" })
         </div>
         <div class="col-md-8">
-            <ul class="form-control" style="list-style-type:none">
+            <ul class="form-control" style="padding-left: 1.5em;">
                 @foreach (var skill in ViewBag.skills)
                 {
                     <li>@skill</li>

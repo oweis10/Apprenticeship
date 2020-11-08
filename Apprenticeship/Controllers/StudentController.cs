@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Apprenticeship.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -25,6 +26,9 @@ namespace Apprenticeship.Controllers
             dynamic task = new ExpandoObject();
             try
             {
+                var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (studentId == null)
+                    studentId = id;
                 task.tasks = _taskRepository.GetTasks(studentId);
                 return View(task);
             }
