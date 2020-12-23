@@ -34,9 +34,26 @@ namespace Apprenticeship.Repositories
             else
             {
                 var tasks = _dataContext.Tasks.Where(x => x.Deleted == false && x.StudentId == studentId).Include(x => x.Nos).Include(x => x.Student).Include(x => x.TaskFiles).Include(x => x.TaskFiles).Include(x => x.TasksComments).ToList();
+                tasks = tasks.GroupBy(x => x.TaskGroup).OrderBy(x => x.First().CreateTime).Select(x => x.LastOrDefault()).ToList();
                 return tasks;
             }
             
+        }
+
+        public ICollection<Taskss> GetTimelineTasks(string studentId)
+        {
+            if (studentId == null)
+            {
+                var tasks = _dataContext.Tasks.Where(x => x.Deleted == false).Include(x => x.Nos).Include(x => x.Student).Include(x => x.TaskFiles).Include(x => x.TaskFiles).Include(x => x.TasksComments).OrderBy(x => x.CreateTime).ToList();
+                return tasks;
+            }
+            else
+            {
+                var tasks = _dataContext.Tasks.Where(x => x.Deleted == false && x.StudentId == studentId).Include(x => x.Nos).Include(x => x.Student).Include(x => x.TaskFiles).Include(x => x.TaskFiles).Include(x => x.TasksComments).OrderByDescending(x => x.CreateTime).ToList();
+                //tasks = tasks.GroupBy(x => x.TaskGroup).OrderBy(x => x.First().CreateTime).Select(x => x.LastOrDefault()).ToList();
+                return tasks;
+            }
+
         }
 
         public ICollection<Taskss> GetWorkMentorTasks(string userId)
@@ -46,7 +63,9 @@ namespace Apprenticeship.Repositories
                          on t.StudentId equals p.StudentId
                          where t.Deleted == false && p.Deleted == false && p.WorkMentorId == userId
                          select t).Include(x => x.Student).Distinct().ToList();
-                return tasks;
+            tasks = tasks.GroupBy(x => x.TaskGroup).OrderBy(x => x.First().CreateTime).Select(x => x.LastOrDefault()).ToList();
+
+            return tasks;
             
         }
 
@@ -80,7 +99,9 @@ namespace Apprenticeship.Repositories
 
             _dataContext.Tasks.Add(task);
             _dataContext.SaveChanges();
-
+            var lastTaskGroup = _dataContext.Tasks.OrderBy(x => x.TaskGroup).Select(x => x.TaskGroup).LastOrDefault();
+            task.TaskGroup = (lastTaskGroup == 0 ? 1 : lastTaskGroup + 1);
+            _dataContext.SaveChanges();
             foreach(var file in intermediatTask.Files)
             {
                 var taskFile = new TaskFiles()
@@ -99,41 +120,93 @@ namespace Apprenticeship.Repositories
 
         public void UpdateTask(IntermediateTask intermediatTask)
         {
-            var task = _dataContext.Tasks.SingleOrDefault(x => x.Id == intermediatTask.Id && x.Deleted == false);
-            
-            var taskFiles = _dataContext.TaskFiles.Where(x => x.TaskId == task.Id).ToList();
-            if(intermediatTask.Files.Any())
+            var task = _dataContext.Tasks.Include(x => x.TaskFiles).Include(x => x.TasksComments).SingleOrDefault(x => x.Id == intermediatTask.Id && x.Deleted == false);
+
+            var newTask = new Taskss();
+            //newTask.Modified = true;
+            newTask.Title = intermediatTask.Title;
+            newTask.Description = intermediatTask.Description;
+            newTask.Note = intermediatTask.Note;
+            newTask.Status = ReportApprovalStatus.PendingApproval;
+            newTask.TaskGroup = task.TaskGroup;
+            newTask.CreateTime = DateTime.Now;
+            newTask.NosId = task.NosId;
+            newTask.StudentId = task.StudentId;
+            newTask.Deleted = task.Deleted;
+            _dataContext.Add(newTask);
+            _dataContext.SaveChanges();
+            //var taskFiles = _dataContext.TaskFiles.Where(x => x.TaskId == task.Id).ToList();
+            //if(intermediatTask.Files.Any())
+            //{
+            //    foreach (var taskFile in taskFiles)
+            //    {
+            //        _dataContext.TaskFiles.Remove(taskFile);
+            //        _dataContext.SaveChanges();
+            //    }
+            //}
+
+
+            //task.Modified = true;
+            //task.Title = intermediatTask.Title;
+            //task.Description = intermediatTask.Description;
+            //task.Note = intermediatTask.Note;
+            //task.Status = ReportApprovalStatus.PendingApproval;
+
+            if (intermediatTask.Files.Any())
             {
-                foreach (var taskFile in taskFiles)
+                foreach (var file in intermediatTask.Files)
                 {
-                    _dataContext.TaskFiles.Remove(taskFile);
+                    var taskFile = new TaskFiles()
+                    {
+                        TaskId = newTask.Id,
+                        File = file.File,
+                        Deleted = false,
+                        Task = task,
+                        Name = file.Name,
+                        ContentType = file.ContentType
+                    };
+                    _dataContext.TaskFiles.Add(taskFile);
                     _dataContext.SaveChanges();
                 }
             }
-            
-
-            task.Modified = true;
-            task.Title = intermediatTask.Title;
-            task.Description = intermediatTask.Description;
-            task.Note = intermediatTask.Note;
-            task.Status = ReportApprovalStatus.PendingApproval;
-            
-            _dataContext.SaveChanges();
-
-            foreach (var file in intermediatTask.Files)
+            else
             {
-                var taskFile = new TaskFiles()
+                
+                foreach (var file in task.TaskFiles)
                 {
-                    TaskId = task.Id,
-                    File = file.File,
-                    Deleted = false,
-                    Task = task,
-                    Name = file.Name,
-                    ContentType = file.ContentType
-                };
-                _dataContext.TaskFiles.Add(taskFile);
+                    var taskFiles = new TaskFiles()
+                    {
+                        TaskId = newTask.Id,
+                        File = file.File,
+                        Name = file.Name,
+                        Url = file.Url,
+                        Deleted = file.Deleted,
+                        ContentType = file.ContentType
+                    };
+
+                    _dataContext.TaskFiles.Add(taskFiles);
+                }
+
                 _dataContext.SaveChanges();
+
+                foreach (var cmnt in task.TasksComments)
+                {
+                    var comment = new TasksComments()
+                    {
+                        Comment = cmnt.Comment,
+                        Date = cmnt.Date,
+                        Deleted = cmnt.Deleted,
+                        TaskId = newTask.Id,
+                        UserId = cmnt.UserId
+                    };
+
+                    _dataContext.TasksComments.Add(comment);
+                }
+                _dataContext.SaveChanges();
+
             }
+
+            
         }
 
         public Taskss ViewTask(long taskId)
@@ -170,17 +243,114 @@ namespace Apprenticeship.Repositories
 
         public async Task ApproveTask(long taskId)
         {
-            var task = _dataContext.Tasks.SingleOrDefault(x => x.Deleted == false && x.Id == taskId);
-            task.Status = ReportApprovalStatus.Approved;
+            var task = _dataContext.Tasks.Include(x => x.TaskFiles).Include(x => x.TasksComments).SingleOrDefault(x => x.Deleted == false && x.Id == taskId);
+            
+            var newTask = new Taskss();
+            newTask.Title = task.Title;
+            newTask.Description = task.Description;
+            newTask.Note = task.Note;
+            newTask.TaskGroup = task.TaskGroup;
+            newTask.Status = ReportApprovalStatus.Approved;
+            newTask.CreateTime = DateTime.Now;
+            newTask.NosId = task.NosId;
+            newTask.StudentId = task.StudentId;
+            newTask.Deleted = task.Deleted;
+            _dataContext.Add(newTask);
             await _dataContext.SaveChangesAsync();
+            if (task.TaskFiles.Any())
+            {
+                foreach (var file in task.TaskFiles)
+                {
+                    var taskFiles = new TaskFiles()
+                    {
+                        TaskId = newTask.Id,
+                        File = file.File,
+                        Name = file.Name,
+                        Url = file.Url,
+                        Deleted = file.Deleted,
+                        ContentType = file.ContentType
+                    };
+
+                    _dataContext.TaskFiles.Add(taskFiles);
+                }
+
+                _dataContext.SaveChanges();
+            }
+
+            if (task.TasksComments.Any())
+            {
+                foreach (var cmnt in task.TasksComments)
+                {
+                    var comment = new TasksComments()
+                    {
+                        Comment = cmnt.Comment,
+                        Date = cmnt.Date,
+                        Deleted = cmnt.Deleted,
+                        TaskId = newTask.Id,
+                        UserId = cmnt.UserId
+                    };
+
+                    _dataContext.TasksComments.Add(comment);
+                }
+                _dataContext.SaveChanges();
+            }
         }
 
         public void RejectTask(long taskId, string note)
         {
-            var task = _dataContext.Tasks.SingleOrDefault(x => x.Deleted == false && x.Id == taskId);
-            task.Status = ReportApprovalStatus.Rejected;
-            task.Note = note;
+            var task = _dataContext.Tasks.Include(x => x.TaskFiles).Include(x => x.TasksComments).SingleOrDefault(x => x.Deleted == false && x.Id == taskId);
+            var newTask = new Taskss();
+            newTask.Title = task.Title;
+            newTask.Description = task.Description;
+            newTask.Status = ReportApprovalStatus.PendingApproval;
+            newTask.TaskGroup = task.TaskGroup;
+            newTask.Status = ReportApprovalStatus.Rejected;
+            newTask.Note = note;
+            newTask.Deleted = task.Deleted;
+            newTask.NosId = task.NosId;
+            newTask.StudentId = task.StudentId;
+            newTask.CreateTime = DateTime.Now;
+            _dataContext.Add(newTask);
             _dataContext.SaveChanges();
+
+            if(task.TaskFiles.Any())
+            {
+                foreach(var file in task.TaskFiles)
+                {
+                    var taskFiles = new TaskFiles()
+                    {
+                        TaskId = newTask.Id,
+                        File = file.File,
+                        Name = file.Name,
+                        Url = file.Url,
+                        Deleted = file.Deleted,
+                        ContentType = file.ContentType
+                    };
+
+                    _dataContext.TaskFiles.Add(taskFiles);
+                }
+
+                _dataContext.SaveChanges();
+            }
+
+            if(task.TasksComments.Any())
+            {
+                foreach(var cmnt in task.TasksComments)
+                {
+                    var comment = new TasksComments()
+                    {
+                        Comment = cmnt.Comment,
+                        Date = cmnt.Date,
+                        Deleted = cmnt.Deleted,
+                        TaskId = newTask.Id,
+                        UserId = cmnt.UserId
+                    };
+
+                    _dataContext.TasksComments.Add(comment);
+                }
+                _dataContext.SaveChanges();
+            }
+            
         }
 
         public TaskFiles GetFile(long fileId)

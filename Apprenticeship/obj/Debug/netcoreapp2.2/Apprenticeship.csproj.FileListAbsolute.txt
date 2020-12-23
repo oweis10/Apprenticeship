@@ -5,7 +5,6 @@ C:\Users\khaled.owais\source\repos\Apprenticeship\Apprenticeship\bin\Debug\netco
 C:\Users\khaled.owais\source\repos\Apprenticeship\Apprenticeship\bin\Debug\netcoreapp2.2\Apprenticeship.pdb
 C:\Users\khaled.owais\source\repos\Apprenticeship\Apprenticeship\bin\Debug\netcoreapp2.2\Apprenticeship.Views.dll
 C:\Users\khaled.owais\source\repos\Apprenticeship\Apprenticeship\bin\Debug\netcoreapp2.2\Apprenticeship.Views.pdb
-C:\Users\khaled.owais\source\repos\Apprenticeship\Apprenticeship\obj\Debug\netcoreapp2.2\Apprenticeship.csprojAssemblyReference.cache
 C:\Users\khaled.owais\source\repos\Apprenticeship\Apprenticeship\obj\Debug\netcoreapp2.2\Apprenticeship.AssemblyInfoInputs.cache
 C:\Users\khaled.owais\source\repos\Apprenticeship\Apprenticeship\obj\Debug\netcoreapp2.2\Apprenticeship.AssemblyInfo.cs
 C:\Users\khaled.owais\source\repos\Apprenticeship\Apprenticeship\obj\Debug\netcoreapp2.2\Apprenticeship.csproj.CoreCompileInputs.cache
@@ -76,3 +75,4 @@ C:\Users\khaled.owais\source\repos\Apprenticeship\Apprenticeship\obj\Debug\netco
 C:\Users\khaled.owais\source\repos\Apprenticeship\Apprenticeship\obj\Debug\netcoreapp2.2\Razor\Views\_ViewImports.cshtml.g.cs
 C:\Users\khaled.owais\source\repos\Apprenticeship\Apprenticeship\obj\Debug\netcoreapp2.2\Razor\Views\_ViewStart.cshtml.g.cs
 C:\Users\khaled.owais\source\repos\Apprenticeship\Apprenticeship\obj\Debug\netcoreapp2.2\Apprenticeship.genruntimeconfig.cache
+C:\Users\khaled.owais\source\repos\Apprenticeship\Apprenticeship\obj\Debug\netcoreapp2.2\Apprenticeship.csprojAssemblyReference.cache

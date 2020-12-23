@@ -309,7 +309,7 @@ namespace Apprenticeship.Controllers
                 _taskRepository.RejectTask(taskId, note);
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
                 return false;
             }

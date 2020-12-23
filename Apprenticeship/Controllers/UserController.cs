@@ -165,7 +165,9 @@ namespace Apprenticeship.Controllers
                     PhoneNumber = student.PhoneNumber,
                     DegreeId = student.Degree.Id,
                     MajorId = student.Major.Id,
-                    StudentsCoursesIds = studentCourses
+                    StudentsCoursesIds = studentCourses,
+                    CompanyName = student.CompanyName,
+                    Email = student.Email
                 };
                 ICollection<Major> majors = _studentRepository.GetMajors();
                 List<SelectListItem> majorList = new List<SelectListItem>();
@@ -267,7 +269,13 @@ namespace Apprenticeship.Controllers
             try
             {
                 courseIds = intermediateStudent.StudentsCoursesIds;
+                var oldEmail = _studentRepository.GetStudent(intermediateStudent.Id).Email;
                 _studentRepository.UpdateStudent(intermediateStudent, courseIds);
+                
+                if(oldEmail != intermediateStudent.Email)
+                {
+                    SendMail(intermediateStudent.Email, $"{intermediateStudent.FirstName} {intermediateStudent.LastName}", intermediateStudent.Password);
+                }
                 return RedirectToAction("StudentIndex", "User");
             }
             catch
@@ -376,7 +384,9 @@ namespace Apprenticeship.Controllers
                     SecondName = schoolMentor.SecondName,
                     LastName = schoolMentor.LastName,
                     Address = schoolMentor.Address,
-                    PhoneNumber = schoolMentor.PhoneNumber
+                    PhoneNumber = schoolMentor.PhoneNumber,
+                    CompanyName = schoolMentor.CompanyName,
+                    Email = schoolMentor.Email
                 };
 
                 return View(intermediateSchoolMentor);
@@ -394,8 +404,12 @@ namespace Apprenticeship.Controllers
 
             try
             {
-                
+                var oldEmail = _schoolMentorRepository.GetSchoolMentor(intermediateSchoolMentor.Id).Email;
                 _schoolMentorRepository.UpdateSchoolMentor(intermediateSchoolMentor);
+                if (oldEmail != intermediateSchoolMentor.Email)
+                {
+                    SendMail(intermediateSchoolMentor.Email, $"{intermediateSchoolMentor.FirstName} {intermediateSchoolMentor.LastName}", intermediateSchoolMentor.Password);
+                }
                 return RedirectToAction("SchoolMentorIndex", "User");
             }
             catch
@@ -506,7 +520,9 @@ namespace Apprenticeship.Controllers
                     SecondName = workMentor.SecondName,
                     LastName = workMentor.LastName,
                     Address = workMentor.Address,
-                    PhoneNumber = workMentor.PhoneNumber
+                    PhoneNumber = workMentor.PhoneNumber,
+                    CompanyName = workMentor.CompanyName,
+                    Email = workMentor.Email
                 };
 
                 return View(intermediateWorkMentor);
@@ -524,8 +540,12 @@ namespace Apprenticeship.Controllers
 
             try
             {
-
+                var oldEmail = _workMentorRepository.GetWorkMentor(intermediateWorkMentor.Id).Email;
                 _workMentorRepository.UpdateWorkMentor(intermediateWorkMentor);
+                if (oldEmail != intermediateWorkMentor.Email)
+                {
+                    SendMail(intermediateWorkMentor.Email, $"{intermediateWorkMentor.FirstName} {intermediateWorkMentor.LastName}", intermediateWorkMentor.Password);
+                }
                 return RedirectToAction("WorkMentorIndex", "User");
             }
             catch
@@ -555,10 +575,10 @@ namespace Apprenticeship.Controllers
 
         private void SendMail(string email, string name, string password)
         {
-            using (var message = new MailMessage("eservices@HTU.EDU.JO", email))
+            using (var message = new MailMessage("htuapprenticeship@htu.edu.jo", email))
             {
                 message.To.Add(new MailAddress(email));
-                message.From = new MailAddress("eservices@HTU.EDU.JO");
+                message.From = new MailAddress("htuapprenticeship@htu.edu.jo");
                 message.Subject = "New E-Mail from HTU";
                 message.Body = $"Dear {name},<br/><br/>A new account has been created for you at HTU-Apprenticeship and you have been issued with a new temporary password.<br/>Your current login information is now:<br/><br/>username: {email}<br/>password: {password}<br/><br/>You can change your password from your settings,<br/><br/>here is the link to your portal: https://213.186.163.242:2000 <br/>Thank you.";
                 message.IsBodyHtml = true;
@@ -566,7 +586,7 @@ namespace Apprenticeship.Controllers
                 {
                     smtpClient.EnableSsl = true;
                     smtpClient.UseDefaultCredentials = false;
-                    smtpClient.Credentials = new NetworkCredential("eservices@HTU.EDU.JO", "CsJ.c3\\Nf[@(");
+                    smtpClient.Credentials = new NetworkCredential("htuapprenticeship@htu.edu.jo", "Apprentice@2020");
                     smtpClient.Send(message);
                 }
             }

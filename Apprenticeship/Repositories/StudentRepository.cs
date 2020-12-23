@@ -160,26 +160,35 @@ namespace Apprenticeship.Repositories
                     _dataContext.StudentsCourses.Remove(studentCourse);
                     _dataContext.SaveChanges();
                 }
+
+
             }
+
+            var student = (from s in _dataContext.Students
+                           where s.Id == intermediateStudent.Id
+                           select s).Include(x => x.Major).Include(x => x.Degree).SingleOrDefault();
+
+            student.FirstName = intermediateStudent.FirstName;
+            student.SecondName = intermediateStudent.SecondName;
+            student.LastName = intermediateStudent.LastName;
+            student.Address = intermediateStudent.Address;
+            student.EmergencyContactFullName = intermediateStudent.EmergencyContactFullName;
+            student.EmergencyContactPhoneNumber = intermediateStudent.EmergencyContactPhoneNumber;
+            student.PhoneNumber = intermediateStudent.PhoneNumber;
+            student.Degree.Id = intermediateStudent.DegreeId;
+            student.Major.Id = intermediateStudent.MajorId;
+            student.Modified = true;
+            student.CompanyName = intermediateStudent.CompanyName;
+            student.Email = intermediateStudent.Email;
+            student.NormalizedEmail = intermediateStudent.Email.ToUpper();
+            student.UserName = intermediateStudent.Email;
+            student.NormalizedUserName = intermediateStudent.Email.ToUpper();
+
+            _dataContext.SaveChanges();
 
             foreach (var courseId in courseIds)
             {
-                var student = (from s in _dataContext.Students
-                              where s.Id == intermediateStudent.Id
-                              select s).Include(x => x.Major).Include(x => x.Degree).SingleOrDefault();
-
-                student.FirstName = student.FirstName;
-                student.SecondName = student.SecondName;
-                student.LastName = student.LastName;
-                student.Address = student.Address;
-                student.EmergencyContactFullName = student.EmergencyContactFullName;
-                student.EmergencyContactPhoneNumber = student.EmergencyContactPhoneNumber;
-                student.PhoneNumber = student.PhoneNumber;
-                student.Degree.Id = student.Degree.Id;
-                student.Major.Id = student.Major.Id;
-                student.Modified = true;
-
-                _dataContext.SaveChanges();
+                
 
                 StudentsCourses studentCourse = new StudentsCourses()
                 {

@@ -21,5 +21,6 @@ namespace Apprenticeship.Repositories
         ICollection<Taskss> GetWorkMentorTasks(string userId);
         ICollection<Taskss> GetSchoolMentorTasks(string userId);
         TaskFiles GetFile(long fileId);
+        ICollection<Taskss> GetTimelineTasks(string studentId);
     }
 }

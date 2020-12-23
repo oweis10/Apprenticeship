@@ -4,14 +4,16 @@ using Apprenticeship.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Apprenticeship.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201108084200_taskStatuses")]
+    partial class taskStatuses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -309,6 +311,17 @@ namespace Apprenticeship.Data.Migrations
                     b.ToTable("TaskFiles");
                 });
 
+            modelBuilder.Entity("Apprenticeship.Models.TaskStatus", b =>
+                {
+                    b.Property<long>("TaskId");
+
+                    b.Property<int>("Status");
+
+                    b.HasKey("TaskId", "Status");
+
+                    b.ToTable("TaskStatuses");
+                });
+
             modelBuilder.Entity("Apprenticeship.Models.TasksComments", b =>
                 {
                     b.Property<long>("Id")
@@ -346,8 +359,6 @@ namespace Apprenticeship.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Active");
-
                     b.Property<DateTime>("CreateTime");
 
                     b.Property<bool>("Deleted");
@@ -367,8 +378,6 @@ namespace Apprenticeship.Data.Migrations
                     b.Property<int>("Status");
 
                     b.Property<string>("StudentId");
-
-                    b.Property<long>("TaskGroup");
 
                     b.Property<string>("Title");
 
@@ -686,6 +695,14 @@ namespace Apprenticeship.Data.Migrations
                 {
                     b.HasOne("Apprenticeship.Models.Taskss", "Task")
                         .WithMany("TaskFiles")
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Apprenticeship.Models.TaskStatus", b =>
+                {
+                    b.HasOne("Apprenticeship.Models.Taskss", "Task")
+                        .WithMany("TaskStatuses")
                         .HasForeignKey("TaskId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

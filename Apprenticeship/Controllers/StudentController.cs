@@ -29,7 +29,7 @@ namespace Apprenticeship.Controllers
                 var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 if (studentId == null)
                     studentId = id;
-                task.tasks = _taskRepository.GetTasks(studentId);
+                task.tasks = _taskRepository.GetTimelineTasks(studentId);
                 return View(task);
             }
             catch (Exception e)

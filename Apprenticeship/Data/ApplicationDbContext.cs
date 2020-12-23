@@ -34,6 +34,8 @@ namespace Apprenticeship.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            //modelBuilder.Entity<Taskss>().Property(e => e.TaskGroup).ValueGeneratedOnAdd();
+
             // setting many to many relationship between Majors and Users Noses
             modelBuilder.Entity<MajorsNoses>()
                .HasOne(e => e.Major)
@@ -129,7 +131,6 @@ namespace Apprenticeship.Data
                .HasOne(e => e.Nos)
                .WithMany(e => e.PlacementsNoses)
                .HasForeignKey(e => e.NosId);
-
 
         }
 

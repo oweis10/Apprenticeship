@@ -4,14 +4,16 @@ using Apprenticeship.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Apprenticeship.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201223093103_removeTaskGroup")]
+    partial class removeTaskGroup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -367,8 +369,6 @@ namespace Apprenticeship.Data.Migrations
                     b.Property<int>("Status");
 
                     b.Property<string>("StudentId");
-
-                    b.Property<long>("TaskGroup");
 
                     b.Property<string>("Title");
 

@@ -8,58 +8,239 @@
 @using (@Html.BeginForm("EditStudent", "User", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-<div class="form-group">
     @Html.HiddenFor(x => x.Id)
-    @Html.TextBoxFor(x => x.FirstName, new { placeholder = "Enter first name", @class = "form-control" })
-    @Html.TextBoxFor(x => x.SecondName, new { placeholder = "Enter second name", @class = "form-control" })
-    @Html.TextBoxFor(x => x.LastName, new { placeholder = "Enter last name", @class = "form-control" })
-    
-    @Html.TextBoxFor(x => x.Address, new { placeholder = "Enter address", @class = "form-control" })
-    <select class="form-control" name="DegreeId">
-        @foreach (var degree in ViewBag.degrees)
-        {
-            if (@degree.Selected == true)
-            {
-                <option selected="selected" value="@degree.Value">@degree.Text</option>
-            }
-            else
-            {
-                <option value="@degree.Value">@degree.Text</option>
-            }
-        }
-    </select>
-    <select class="form-control" name="MajorId">
-        @foreach (var major in ViewBag.majors)
-        {
-            if (@major.Selected == true)
-            {
-                <option selected="selected" value="@major.Value">@major.Text</option>
-            }
-            else
-            {
-                <option value="@major.Value">@major.Text</option>
-            }
-        }
-    </select>
-    @Html.TextBoxFor(x => x.PhoneNumber, new { placeholder = "Enter phone number", @class = "form-control" })
-    @Html.TextBoxFor(x => x.EmergencyContactFullName, new { placeholder = "Enter emergency contact name", @class = "form-control" })
-    @Html.TextBoxFor(x => x.EmergencyContactPhoneNumber, new { placeholder = "Enter emergency contact phone number", @class = "form-control" })
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.FirstName, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.FirstName, new { placeholder = "Enter first name", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.FirstName, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.SecondName, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.SecondName, new { placeholder = "Enter second name", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.SecondName, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.LastName, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.LastName, new { placeholder = "Enter last name", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.LastName, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.Email, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.Email, new { placeholder = "Enter Email", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.Email, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.Address, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.Address, new { placeholder = "Enter Address", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.Address, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.CompanyName, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.CompanyName, new { placeholder = "Enter Company Name", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.CompanyName, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.DegreeId, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            <select class="form-control" name="DegreeId">
+                @foreach (var degree in ViewBag.degrees)
+                {
+                    if (@degree.Selected == true)
+                    {
+                        <option selected="selected" value="@degree.Value">@degree.Text</option>
+                    }
+                    else
+                    {
+                        <option value="@degree.Value">@degree.Text</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.DegreeId, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.MajorId, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            <select class="form-control" name="MajorId">
+                @foreach (var major in ViewBag.majors)
+                {
+                    if (@major.Selected == true)
+                    {
+                        <option selected="selected" value="@major.Value">@major.Text</option>
+                    }
+                    else
+                    {
+                        <option value="@major.Value">@major.Text</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.MajorId, null, new { @class = "text-danger" })
+        </div>
+    </div>
 
-    <select class="selectpicker form-control" multiple data-live-search="true" name="StudentsCoursesIds">
-        @foreach (var course in ViewBag.courses)
-        {
-            if (@course.Selected == true)
-            {
-                <option selected="selected" value="@course.Value">@course.Text</option>
-            }
-            else
-            {
-                <option value="@course.Value">@course.Text</option>
-            }
-        }
-    </select>
 
-</div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.PhoneNumber, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.PhoneNumber, new { placeholder = "Enter Phone Number", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.PhoneNumber, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.EmergencyContactFullName, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.EmergencyContactFullName, new { placeholder = "Enter emergency contact name", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.EmergencyContactFullName, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.EmergencyContactPhoneNumber, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            @Html.TextBoxFor(x => x.EmergencyContactPhoneNumber, new { placeholder = "Enter emergency contact phone number", @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.EmergencyContactPhoneNumber, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(x => x.StudentsCoursesIds, new { @class = "form-control font-weight-bolder" })
+        </div>
+        <div class="col-md-5">
+            <select class="selectpicker form-control" multiple data-live-search="true" name="StudentsCoursesIds">
+                @foreach (var course in ViewBag.courses)
+                {
+                    if (@course.Selected == true)
+                    {
+                        <option selected="selected" value="@course.Value">@course.Text</option>
+                    }
+                    else
+                    {
+                        <option value="@course.Value">@course.Text</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            @Html.ValidationMessageFor(x => x.StudentsCoursesIds, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    @*<div class="form-group">
+            @Html.HiddenFor(x => x.Id)
+            @Html.TextBoxFor(x => x.FirstName, new { placeholder = "Enter first name", @class = "form-control" })
+            @Html.TextBoxFor(x => x.SecondName, new { placeholder = "Enter second name", @class = "form-control" })
+            @Html.TextBoxFor(x => x.LastName, new { placeholder = "Enter last name", @class = "form-control" })
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(x => x.Email, new { @class = "form-control font-weight-bolder" })
+                </div>
+                <div class="col-md-5">
+                    @Html.TextBoxFor(x => x.Email, new { placeholder = "Enter Email", @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    @Html.ValidationMessageFor(x => x.Email, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            @Html.TextBoxFor(x => x.Address, new { placeholder = "Enter address", @class = "form-control" })
+            <select class="form-control" name="DegreeId">
+                @foreach (var degree in ViewBag.degrees)
+                {
+                    if (@degree.Selected == true)
+                    {
+                        <option selected="selected" value="@degree.Value">@degree.Text</option>
+                    }
+                    else
+                    {
+                        <option value="@degree.Value">@degree.Text</option>
+                    }
+                }
+            </select>
+            <select class="form-control" name="MajorId">
+                @foreach (var major in ViewBag.majors)
+                {
+                    if (@major.Selected == true)
+                    {
+                        <option selected="selected" value="@major.Value">@major.Text</option>
+                    }
+                    else
+                    {
+                        <option value="@major.Value">@major.Text</option>
+                    }
+                }
+            </select>
+            @Html.TextBoxFor(x => x.PhoneNumber, new { placeholder = "Enter phone number", @class = "form-control" })
+            @Html.TextBoxFor(x => x.EmergencyContactFullName, new { placeholder = "Enter emergency contact name", @class = "form-control" })
+            @Html.TextBoxFor(x => x.EmergencyContactPhoneNumber, new { placeholder = "Enter emergency contact phone number", @class = "form-control" })
+
+            <select class="selectpicker form-control" multiple data-live-search="true" name="StudentsCoursesIds">
+                @foreach (var course in ViewBag.courses)
+                {
+                    if (@course.Selected == true)
+                    {
+                        <option selected="selected" value="@course.Value">@course.Text</option>
+                    }
+                    else
+                    {
+                        <option value="@course.Value">@course.Text</option>
+                    }
+                }
+            </select>
+
+        </div>*@
     <button type="submit" class="btn btn-primary">Submit</button>
 }
 <script>

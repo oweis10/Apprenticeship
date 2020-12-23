@@ -94,8 +94,12 @@ namespace Apprenticeship.Repositories
                 workMentor.PhoneNumber = intermediateWorkMentor.PhoneNumber;
                 workMentor.CompanyName = intermediateWorkMentor.CompanyName;
                 workMentor.Modified = true;
+                workMentor.Email = intermediateWorkMentor.Email;
+                workMentor.NormalizedEmail = intermediateWorkMentor.Email.ToUpper();
+                workMentor.UserName = intermediateWorkMentor.Email;
+                workMentor.NormalizedUserName = intermediateWorkMentor.Email.ToUpper();
 
-                _dataContext.SaveChanges();
+            _dataContext.SaveChanges();
             
             
         }

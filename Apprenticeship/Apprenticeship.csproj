@@ -17,6 +17,12 @@
     <Compile Remove="Data\Migrations\20190913173826_TasksAndTaskComments.Designer.cs" />
     <Compile Remove="Data\Migrations\20200101160742_addingNosToTask.cs" />
     <Compile Remove="Data\Migrations\20200101160742_addingNosToTask.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201223092819_makeTaskGroupAutoncreame.cs" />
+    <Compile Remove="Data\Migrations\20201223092819_makeTaskGroupAutoncreame.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201223093433_addTaskGroup.cs" />
+    <Compile Remove="Data\Migrations\20201223093433_addTaskGroup.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201223093523_addTaskGroup.cs" />
+    <Compile Remove="Data\Migrations\20201223093523_addTaskGroup.Designer.cs" />
   </ItemGroup>
 
 
@@ -30,7 +36,7 @@
     <PackageReference Include="Microsoft.Owin.Host.SystemWeb" Version="4.0.1" />
     <PackageReference Include="Microsoft.Owin.Security.Cookies" Version="4.0.1" />
     <PackageReference Include="Microsoft.Owin.Security.OpenIdConnect" Version="4.0.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
     <PackageReference Include="morelinq" Version="3.2.0" />
     <PackageReference Include="System.Linq" Version="4.3.0" />
   </ItemGroup>
