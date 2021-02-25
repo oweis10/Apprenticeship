@@ -586,7 +586,7 @@ namespace Apprenticeship.Controllers
                 {
                     smtpClient.EnableSsl = true;
                     smtpClient.UseDefaultCredentials = false;
-                    smtpClient.Credentials = new NetworkCredential("htuapprenticeship@htu.edu.jo", "Apprentice@2020");
+                    smtpClient.Credentials = new NetworkCredential("htuapprenticeship@htu.edu.jo", "Apprentice@123");
                     smtpClient.Send(message);
                 }
             }

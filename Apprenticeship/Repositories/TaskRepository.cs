@@ -76,6 +76,7 @@ namespace Apprenticeship.Repositories
                          on t.StudentId equals p.StudentId
                          where t.Deleted == false && p.Deleted == false && p.SchoolMentorId == userId
                          select t).Include(x => x.Student).Distinct().ToList();
+            tasks = tasks.GroupBy(x => x.TaskGroup).OrderBy(x => x.First().CreateTime).Select(x => x.LastOrDefault()).ToList();
             return tasks;
 
         }
